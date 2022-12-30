@@ -16,7 +16,7 @@ a {
   top: 0;
   left: unset;
   right: 0;
-  background: url(../images/2.png);
+  background-image: url(../images/flyer.png);
   background-size: cover;
   background-position-x: 50%;
   width: 50%;
@@ -28,7 +28,7 @@ a {
 
 nav {
   display: block;
-  /* position: unset; */
+  position: unset;
   right: 0;
   top: auto;
   height: auto;

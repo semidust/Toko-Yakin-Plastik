@@ -45,8 +45,8 @@ if(isset($_POST['tambah'])){
 
     
     <center>
-    <a class="btn btn-primary" href="konser_tambah.html">Add</a>
-    <a class="btn btn-secondary" href="konser.php">Back</a> 
+    <a class="btn btn-primary" href="penjualan_tambah.html">Add</a>
+    <a class="btn btn-secondary" href="penjualan.php">Back</a> 
     </center>
 
 </html>

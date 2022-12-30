@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/main.css">
 
 </head>
 
@@ -29,9 +29,9 @@
             <nav class="mx-auto">                
                 <ul>
                     <li><a class="btn btn-outline-light" href="index.html">Home</a></li>
-                    <li><a class="btn btn-outline-light" href="#hiring">Barang</a></li>
-                    <li><a class="btn btn-outline-light" href="content/konser.php">Pemasukan</a></li>
-                    <li><a class="btn btn-outline-light" href="content/konser.php">Penjualan</a></li>
+                    <li><a class="btn btn-outline-light" href="">Barang</a></li>
+                    <li><a class="btn btn-outline-light" href="">Pemasukan</a></li>
+                    <li><a class="btn btn-outline-light" href="penjualan.php">Penjualan</a></li>
                     <li><a class="btn btn-danger" href="aksi_logout.php">Logout</a></li>
                 </ul>
             </nav>
@@ -73,8 +73,8 @@
                 <td><?php echo $data['no_hp'];?></td>
         
         <td>
-            <a class="btn btn-primary" href="konser_edit.php?id=<?= $data['id']?>">Edit</a>
-            <a class="btn btn-secondary" href="konser_hapus.php?id=<?= $data['id']?>">Delete</a>
+            <a class="btn btn-primary" href="penjualan_edit.php?id=<?= $data['id']?>">Edit</a>
+            <a class="btn btn-secondary" href="penjualan_hapus.php?id=<?= $data['id']?>">Delete</a>
     <?php
         }
         ?>
@@ -82,8 +82,8 @@
     </table>
 
     <center>
-    <a class="btn btn-primary" href="konser_tambah.html">Add</a>
-    <a class="btn btn-secondary" href="../index.html">Back</a> 
+    <a class="btn btn-primary" href="penjualan_tambah.html">Add</a>
+    <a class="btn btn-secondary" href="index.html">Back</a> 
     </center>
     <br><br><br><br>
 

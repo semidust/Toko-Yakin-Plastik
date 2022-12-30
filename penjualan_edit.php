@@ -78,7 +78,7 @@ if(isset($_POST["edit"])){
   </div>
 <center>
 <br><input type="submit" value="Save" name="edit" class="btn btn-primary">
-<a class="btn btn-secondary" href="konser.php">Back</a> 
+<a class="btn btn-secondary" href="penjualan.php">Back</a> 
 </center>
 </form>
 

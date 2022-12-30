@@ -3,6 +3,6 @@ $host="localhost";
 $user="root";
 $pass="";
 $name="hiskia";
-$koneksi=mysqli_connect($host,$user,$pass) or die("koneksi ke database gagal");
+$koneksi=mysqli_connect($host,$user,$pass) or die("Koneksi ke Database Gagal...");
 mysqli_select_db($koneksi,$name);
 ?>
