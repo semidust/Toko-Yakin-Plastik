@@ -1,0 +1,208 @@
+body {
+  margin: 1.5em 5em;
+  font-family: "Poppins", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.hero-img {
+  position: absolute;
+  top: 0;
+  left: unset;
+  right: 0;
+  background: url(../images/2.png);
+  background-size: cover;
+  background-position-x: 50%;
+  width: 50%;
+  height: 42em;
+  z-index: -1;
+}
+
+.logo {
+  margin-top: 10pt;
+  color: white;
+  font-weight: bold;
+}
+.logo span {
+  margin-top: 10pt;
+  color: blue;
+}
+
+nav {
+  display: block;
+  position: unset;
+  right: 0;
+  top: auto;
+  height: auto;
+  width: auto;
+  z-index: 999;
+  text-transform: uppercase;
+  background: none;
+}
+nav ul {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+nav ul a {
+  margin-top: 10pt;
+  margin-left: 30pt;
+  color: white;
+  padding: 0.5em 1.5em;
+  display: block;
+  font-size: 0.9rem;
+}
+nav ul a:hover {
+  background: none;
+}
+
+#more {display: none;}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+header svg {
+  width: 3em;
+  margin-top: -0.6em;
+  cursor: pointer;
+}
+
+
+h1 {
+  font-weight: bold;
+  font-size: 3rem;
+  margin-top: 50pt;
+  line-height: 3.3rem;
+}
+
+.subhead {
+  font-size: 1.2rem;
+}
+
+section.hero {
+  color: black;
+  height: auto;
+  width: 40%;
+  margin-bottom: 20em;
+}
+
+.more-info .judul{
+  font-weight: bold;
+  font-size: 3.5rem;
+  line-height: 4rem;
+  color: white;
+  background-color: #3647ce;
+  padding-top: 20pt;
+  padding-bottom: 20pt;
+  border-radius: 15px;
+  
+}
+
+.tableoprec .judul{
+  font-weight: bold;
+  font-size: 3.5rem;
+  line-height: 4rem;
+  color: white;
+  background-color: #3647ce;
+  padding-top: 20pt;
+  padding-bottom: 20pt;
+  border-radius: 15px;
+  
+}
+
+.more-info .title {
+  font-weight: bold;
+  font-size: 2.8rem;
+  line-height: 4rem;
+}
+.more-info .desc {
+  line-height: 1.5rem;
+}
+.more-info .feature {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 0;
+  margin-bottom: 8em;
+}
+.more-info .feature video {
+
+  margin-left: 3em;
+}
+.more-info .feature .content {
+  text-align: right;
+  width: 25em;
+}
+.more-info .feature.left {
+  grid-template-areas: "left right";
+}
+.more-info .feature.left video {
+  grid-area: left;
+  margin-right: 3em;
+}
+.more-info .feature.left .content {
+  text-align: left;
+  width: 25em;
+  justify-self: left;
+}
+
+
+table {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+}
+
+
+table td, table th {
+  padding-left: 8px;
+  text-align: center;
+  
+}
+table thead tr {
+  height: 60px;
+  background: #3647ce;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+}
+
+table thead tr td {
+    text-align: center;
+}
+
+table tbody tr {
+  height: 80px;
+  border-bottom: 1px solid #000000;
+  border-bottom-width: 2px ;
+  text-align: center;
+}
+
+table tbody tr:last-child {
+    text-align: center;
+  border: 0;
+}
+
+table td, table th {
+    text-align: center;
+}
+table td.l, table th.l {
+    text-align: center;
+}
+table td.c, table th.c {
+  text-align: center;
+}
+table td.r, table th.r {
+  text-align: center;
+}
