@@ -92,7 +92,7 @@
 
   body{
     padding-top: 2em;
-      background-color: #131199;
+    background-image: url(./images/bg.png);
   }
 
 

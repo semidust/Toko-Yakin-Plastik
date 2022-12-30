@@ -1,29 +1,16 @@
 body {
-  margin-top: 1.5em;
+  margin-top: 6em;
   margin-left: 5em;
   margin-bottom: 1.5em;
   margin-right: 1.5em;
   font-family: "Poppins", sans-serif;
+  background-image: url(../images/backgroundhome.png);
 }
 
 a {
   text-decoration: none;
   font-size: 1.5rem;
 }
-
-.hero-img {
-  position: absolute;
-  top: 0;
-  left: unset;
-  right: 0;
-  background-image: url(../images/flyer.png);
-  background-size: cover;
-  background-position-x: 50%;
-  width: 50%;
-  height: 42em;
-  z-index: -1;
-}
-
 
 
 nav {

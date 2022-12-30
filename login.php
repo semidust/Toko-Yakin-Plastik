@@ -16,13 +16,12 @@
   <script src="uts.js"></script>
 </head>
 <body>
+  
   <form class="login-form" action="aksi_login.php" method="POST">
   <div class="shadow-lg p-3 mb-5 bg-body rounded">
-  <center>
-  <h1>ADMIN LOGIN</h1><br><br>
-  </center>
+  
       <div class="form-group">
-        <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username">
+        <br><br><input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username">
       </div>
       <br>
 
@@ -44,15 +43,15 @@
       font-family: "Poppins", sans-serif;
     }
     body{
-      background-image: url("https://api.brut.works/images/director/_projects_tablet/unilever_US_opening1_02_270121_Artboard-4.png");
-      background-size:1920px 1080px;
+      background-image: url(./images/loginbg.png);
+      /* background-size:1366px 768px; */
       background-repeat: repeat;
     }
     .login-form{
       background:white;
       width: 350px;
       top:50%;
-      left: 50%;
+      left: 70%;
       transform: translate(-50%,-50%);
       position: absolute;
       margin-top: 20px;

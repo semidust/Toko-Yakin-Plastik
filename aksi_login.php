@@ -2,7 +2,7 @@
 .mycssquote {
       font-weight: bold;
       font-size: 30px;
-      margin-top: 8em;
+      margin-top: 4em;
       text-align: center;
       text-transform: uppercase;
       color: red;
