@@ -3,7 +3,6 @@
 $title = 'Data Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_barang = select("SELECT * FROM barang");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
@@ -32,8 +31,8 @@ if (isset($_POST['tambah'])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<form action="">
-  <input type="search" placeholder="Search here ...">
+<form method="GET" action="">
+  <input type="text" name="cari" value="<?php if(isset($_GET['cari'])){ echo $_GET['cari']; }?>" placeholder="Search here ...">
   <i class="fa fa-search"></i>
 </form>
 
@@ -54,6 +53,17 @@ if (isset($_POST['tambah'])) {
     </thead>
     <tbody>
       <?php $no = 1; ?>
+      <?php
+        if(isset($_GET['cari'])) {
+          $pencarian = $_GET['cari'];
+          $query = "SELECT * FROM barang where nama_barang like '%".$pencarian."%' or harga like '%".$pencarian."%' ORDER BY id_barang ";
+        }
+        else {
+          $query = "SELECT * FROM barang";
+        }
+
+        $data_barang = select($query);
+      ?>
       <?php foreach($data_barang as $barang) : ?>
             <tr>
                 <td><?php echo $no++;?></td>
@@ -74,7 +84,7 @@ if (isset($_POST['tambah'])) {
 
     <center>
     <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
-    <a class="btn btn-secondary" href="index.html">Back</a> 
+    <a class="btn btn-secondary" href="index.php">Back</a> 
     </center>
     <br><br><br><br>
 
@@ -191,10 +201,6 @@ input{
     transition: all 1s;
 }
 
-form:hover{
-    width: 300px;
-    cursor: pointer;
-}
 
 form:hover input{
     display: block;

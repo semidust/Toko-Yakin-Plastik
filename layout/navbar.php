@@ -20,7 +20,7 @@ include 'head.php'
 
             <nav class="mx-auto">                
                 <ul>
-                    <li><a class="btn btn-outline-light" href="index.html">Home</a></li>
+                    <li><a class="btn btn-outline-light" href="index.php">Home</a></li>
                     <li><a class="btn btn-outline-light" href="./barang.php">Barang</a></li>
                     <li><a class="btn btn-outline-light" href="">Pemasukan</a></li>
                     <li><a class="btn btn-outline-light" href="./penjualan.php">Penjualan</a></li>

@@ -89,43 +89,43 @@ if (isset($_POST['tambah'])) {
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
             <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor Nota Jual</label>
+              <label for="no_notajual" class="form-label">Nomor Nota Jual</label>
               <input type="number" class="form-control" name="no_notajual" id="no_notajual">
             </div>
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">ID Pegawai</label>
+              <label for="id_pegawai" class="form-label">ID Pegawai</label>
               <input type="text" class="form-control" name="id_pegawai" id="id_pegawai" 
               value="<?= $_SESSION['id_pegawai']; ?>" disabled>
             </div>
 
             <div class="mb-3">
-              <label for="nama" class="form-label">ID Barang</label>
+              <label for="id_barang" class="form-label">ID Barang</label>
               <input type="number" class="form-control" name="id_barang" id="id_barang">
             </div>
 
             <div class="mb-3">
-              <label for="nama" class="form-label">Nama Barang</label>
+              <label for="nama_barang" class="form-label">Nama Barang</label>
               <input type="text" class="form-control" name="nama_barang" id="nama_barang">
             </div>
           
             <div class="mb-3">
-              <label for="tickets" class="form-label">Jumlah Barang</Title></label>
+              <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
               <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang">
             </div>
 
             <div class="mb-3">
-              <label for="price" class="form-label">Tanggal Transaksi</label>
+              <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
               <input type="date" class="form-control" name="tgl_transaksi" id="tgl_transaksi">
             </div>
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">Total</label>
+              <label for="total" class="form-label">Total</label>
               <input type="number" class="form-control" name="total" id="total">
             </div>
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor HP</label>
+              <label for="no_hp" class="form-label">Nomor HP</label>
               <input type="text" class="form-control" name="no_hp" id="no_hp">
             </div>
 

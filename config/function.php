@@ -54,4 +54,6 @@ function create_data($post)
     return mysqli_affected_rows($koneksi);
 }   
 
+//fungsi edit data penjualan
+
 ?>
