@@ -1,8 +1,11 @@
 <style>
+    body {
+        background-image: url(./images/bg.png);
+    }
 .mycssquote {
       font-weight: bold;
       font-size: 30px;
-      margin-top: 4em;
+      margin-top: 8em;
       text-align: center;
       text-transform: uppercase;
       color: red;
@@ -15,16 +18,16 @@
  
  
 <?php
+    include 'config/koneksi.php';
     session_start();
-    include ('koneksi.php');
-    $username = $_POST['username'];
+    $id_pegawai = $_POST['id_pegawai'];
     $password = $_POST['password'];
-    $query = mysqli_query($koneksi, "select * from login where username = '$username' and password = '$password'");
+    $query = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai' and password = '$password'");
     
     $cek = mysqli_num_rows($query);
 
     if ($cek == TRUE){
-        $_SESSION['username'] = $username;
+        $_SESSION['id_pegawai'] = $id_pegawai;
         header ("location:index.html");
     }
     else{

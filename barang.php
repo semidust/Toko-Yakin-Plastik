@@ -1,68 +1,70 @@
 <?php
 
-$title = 'Penjualan Barang';
+$title = 'Data Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_penjualan = select("SELECT * FROM penjualan");
+$data_barang = select("SELECT * FROM barang");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
   if (create_data($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
-            document.location.href = 'penjualan.php';
+            document.location.href = 'barang.php';
            </script>";
   }
 
   else {
     echo "<script>
             alert('Data gagal ditambahkan!');
-            document.location.href = 'penjualan.php';
+            document.location.href = 'barang.php';
            </script>";
   }
 }
 
 ?>
 
-<h2 class="judul">Data Penjualan Barang</h2>
+<h2 class="judul">Data Barang</h2>
 <br>
 <br>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<form action="">
+  <input type="search" placeholder="Search here ...">
+  <i class="fa fa-search"></i>
+</form>
+
+
+<br><br>
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
         <tr>
             <th>No.</th>
-            <th>Nomor Nota Jual</th>
-            <th>ID Pegawai</th>
-            <th>ID Barang</th>
+            <th>ID Produk</th>
             <th>Nama Barang</th>
-            <th>Jumlah Barang</th>
-            <th>Tanggal Transaksi</th>
-            <th>Total</th>
-            <th>Nomor HP</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+            <th>Stok</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
       <?php $no = 1; ?>
-      <?php foreach($data_penjualan as $penjualan) : ?>
+      <?php foreach($data_barang as $barang) : ?>
             <tr>
                 <td><?php echo $no++;?></td>
-                <td><?php echo $penjualan['no_notajual'];?></td>
-                <td><?php echo $penjualan['id_pegawai'];?></td>
-                <td><?php echo $penjualan['id_barang'];?></td>
-                <td><?php echo $penjualan['nama_barang'];?></td>
-                <td><?php echo $penjualan['jmlh_barang'];?></td>
-                <td><?php echo $penjualan['tgl_transaksi'];?></td>
-                <td><?php echo $penjualan['total'];?></td>
-                <td><?php echo $penjualan['no_hp'];?></td>
+                <td><?php echo $barang['id_barang'];?></td>
+                <td><?php echo $barang['nama_barang'];?></td>
+                <td><?php echo $barang['modal'];?></td>
+                <td><?php echo $barang['harga'];?></td>
+                <td><?php echo $barang['stok'];?></td>
                 <td>
-                  <a class="btn btn-primary" href="penjualan_edit.php?no_notajual=<?= $penjualan['no_notajual']?>">Edit</a>
-                  <a class="btn btn-secondary" href="penjualan_hapus.php?no_notajual=<?= $penjualan['no_notajual']?>" 
+                  <a class="btn btn-primary" href="barang_edit.php?no_notajual=<?= $barang['id_barang']?>">Edit</a>
+                  <a class="btn btn-secondary" href="barang_hapus.php?no_notajual=<?= $barang['id_barang']?>" 
                   onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
                 </td>
             </tr>
@@ -144,6 +146,65 @@ if (isset($_POST['tambah'])) {
 
 <style>
 
+form{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: all 1s;
+    width: 50px;
+    height: 50px;
+    background: white;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 4px solid white;
+    padding: 5px;
+}
+
+input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;;
+    height: 42.5px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+
+.fa{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 42.5px;
+    height: 42.5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    color: #07051a;
+    text-align: center;
+    font-size: 1.2em;
+    transition: all 1s;
+}
+
+form:hover{
+    width: 300px;
+    cursor: pointer;
+}
+
+form:hover input{
+    display: block;
+}
+
+form:hover .fa{
+    background: #07051a;
+    color: white;
+}
+
   body{
     padding-top: 2em;
     background-image: url(./images/bg.png) no-repeat;
@@ -174,7 +235,7 @@ if (isset($_POST['tambah'])) {
     overflow: hidden;
     max-width: 1500px;
 
-    width: 97%;
+    width: 70%;
     margin: 0 auto;
     position: relative;
     text-align: center;

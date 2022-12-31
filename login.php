@@ -21,7 +21,7 @@
   <div class="shadow-lg p-3 mb-5 bg-body rounded">
   
       <div class="form-group">
-        <br><br><input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Username">
+        <br><br><input type="text" name="id_pegawai" class="form-control" id="id_pegawai" aria-describedby="emailHelp" placeholder="ID Pegawai">
       </div>
       <br>
 
