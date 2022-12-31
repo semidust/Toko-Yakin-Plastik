@@ -56,7 +56,8 @@ if (isset($_POST['tambah'])) {
       <?php
         if(isset($_GET['cari'])) {
           $pencarian = $_GET['cari'];
-          $query = "SELECT * FROM barang where nama_barang like '%".$pencarian."%' or harga like '%".$pencarian."%' ORDER BY id_barang ";
+          $query = "SELECT * FROM barang where nama_barang like '%".$pencarian."%'
+          or harga like '%".$pencarian."%' ORDER BY id_barang ";
         }
         else {
           $query = "SELECT * FROM barang";
@@ -201,6 +202,10 @@ input{
     transition: all 1s;
 }
 
+form:hover{
+    width: 300px;
+    cursor: pointer;
+}
 
 form:hover input{
     display: block;
