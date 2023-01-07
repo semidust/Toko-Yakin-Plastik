@@ -46,7 +46,7 @@ function create_data($post)
     $no_hp = $post['no_hp'];
 
     //query tambah data
-    $query = "INSERT INTO penjualan VALUES('$id_pegawai', '$id_barang', '$nama_barang', '$no_notajual', '$tgl_transaksi', '$jmlh_barang', 
+    $query = "INSERT INTO penjualan VALUES(''$no_notajual', $id_pegawai', '$id_barang', '$nama_barang', '$jmlh_barang', '$tgl_transaksi',  
     '$total', '$no_hp')";
 
     mysqli_query($koneksi, $query);
