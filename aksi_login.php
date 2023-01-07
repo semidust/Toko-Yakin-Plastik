@@ -28,7 +28,7 @@
 
     if ($cek == TRUE){
         $_SESSION['id_pegawai'] = $id_pegawai;
-        header ("location:index.html");
+        header ("location:index.php");
     }
     else{
         echo "<p class=\"mycssquote\">Login Gagal.</p>";

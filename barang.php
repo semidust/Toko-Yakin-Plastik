@@ -57,7 +57,7 @@ if (isset($_POST['tambah'])) {
         if(isset($_GET['cari'])) {
           $pencarian = $_GET['cari'];
           $query = "SELECT * FROM barang where nama_barang like '%".$pencarian."%'
-          or harga like '%".$pencarian."%' ORDER BY id_barang ";
+          or id_barang like '%".$pencarian."%' ORDER BY id_barang ";
         }
         else {
           $query = "SELECT * FROM barang";

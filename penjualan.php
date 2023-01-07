@@ -4,6 +4,7 @@ $title = 'Penjualan Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
 $data_penjualan = select("SELECT * FROM penjualan");
+$data_barang = select("SELECT * FROM barang");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
@@ -90,7 +91,7 @@ if (isset($_POST['tambah'])) {
           <div class="modal-body">
             <div class="mb-3">
               <label for="no_notajual" class="form-label">Nomor Nota Jual</label>
-              <input type="number" class="form-control" name="no_notajual" id="no_notajual">
+              <input type="number" class="form-control" name="no_notajual" id="no_notajual" required>
             </div>
 
             <div class="mb-3">
@@ -100,33 +101,37 @@ if (isset($_POST['tambah'])) {
             </div>
 
             <div class="mb-3">
-              <label for="id_barang" class="form-label">ID Barang</label>
-              <input type="number" class="form-control" name="id_barang" id="id_barang">
-            </div>
-
-            <div class="mb-3">
-              <label for="nama_barang" class="form-label">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang" id="nama_barang">
+              <label for="id_barang" class="form-label">Barang</label>
+              <!--<input type="number" class="form-control" name="id_barang" id="id_barang">-->
+              <select name="id_barang" id="id_barang" class="form-control" required>
+              <option selected value="">::Pilih Barang::</option>
+              <?php foreach($data_barang as $barang) : ?>
+              <?php echo'<option value="'.$barang['id_barang'].'">
+                          '.$barang['id_barang'].' <p>-</p> '.$barang['nama_barang'].'
+                         </option>';
+              ?>
+              <?php endforeach; ?>
+              </select>
             </div>
           
             <div class="mb-3">
               <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
-              <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang">
+              <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang" required>
             </div>
 
             <div class="mb-3">
               <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
-              <input type="date" class="form-control" name="tgl_transaksi" id="tgl_transaksi">
+              <input type="date" class="form-control" name="tgl_transaksi" id="tgl_transaksi" required>
             </div>
 
             <div class="mb-3">
               <label for="total" class="form-label">Total</label>
-              <input type="number" class="form-control" name="total" id="total">
+              <input type="number" class="form-control" name="total" id="total" required>
             </div>
 
             <div class="mb-3">
               <label for="no_hp" class="form-label">Nomor HP</label>
-              <input type="text" class="form-control" name="no_hp" id="no_hp">
+              <input type="text" class="form-control" name="no_hp" id="no_hp" required>
             </div>
 
           </div>

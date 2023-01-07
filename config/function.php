@@ -39,7 +39,7 @@ function create_data($post)
     $no_notajual = $post['no_notajual'];
     $id_pegawai = $_SESSION['id_pegawai'];
     $id_barang = $post['id_barang'];
-    $nama_barang = $post['nama_barang'];
+    $nama_barang = "SELECT FROM barang WHERE id_barang = $id_barang";
     $jmlh_barang = $post['jmlh_barang'];
     $tgl_transaksi = $post['tgl_transaksi'];
     $total = $post['total'];
