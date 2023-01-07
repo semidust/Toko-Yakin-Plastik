@@ -19,7 +19,7 @@ function select($query)
 }
 
 //fungsi menghapus data penjualan
-function delete_data($no_notajual)
+function delete_datajual($no_notajual)
 {
     global $koneksi;
 
@@ -32,7 +32,7 @@ function delete_data($no_notajual)
 }
 
 //fungsi menambah data penjualan
-function create_data($post)
+function create_datajual($post)
 {
     global $koneksi;
 
@@ -46,7 +46,8 @@ function create_data($post)
     $no_hp = $post['no_hp'];
 
     //query tambah data
-    $query = "INSERT INTO penjualan VALUES('$no_notajual', $id_pegawai', '$id_barang', '$nama_barang', '$jmlh_barang', '$tgl_transaksi',  
+    $query = "INSERT INTO penjualan (no_notajual, id_pegawai, id_barang, nama_barang, jmlh_barang,
+    tgl_transaksi, total, no_hp) VALUES('$no_notajual', $id_pegawai', '$id_barang', '$nama_barang', '$jmlh_barang', '$tgl_transaksi',  
     '$total', '$no_hp')";
 
     mysqli_query($koneksi, $query);
@@ -55,5 +56,22 @@ function create_data($post)
 }   
 
 //fungsi edit data penjualan
+function edit_datajual($post)
+{
+    global $db;
+
+    $id_edit = $post['id_edit'];
+    $jmlh_barang = $post['jmlh_barang'];
+    $tgl_transaksi = $post['tgl_transaksi'];
+    $total = $post['total'];
+
+    //query ubah data
+    $query = "UPDATE penjualan SET jmlh_barang = '$jmlh_barang', tgl_transaksi = '$tgl_transaksi', total = '$total', 
+     WHERE no_notajual = $id_edit";
+
+    mysqli_query($db, $query);
+
+    return mysqli_affected_rows($db);
+}
 
 ?>

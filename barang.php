@@ -6,7 +6,7 @@ include 'config/function.php';
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
-  if (create_data($_POST) > 0) {
+  if (create_datajual($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
             document.location.href = 'barang.php';
