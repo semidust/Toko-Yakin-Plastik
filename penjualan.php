@@ -7,6 +7,8 @@ $data_penjualan = select("SELECT * FROM penjualan");
 $data_barang = select("SELECT * FROM barang");
 $data_pelanggan = select("SELECT * FROM pelanggan");
 
+
+
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
   if (create_data($_POST) > 0) {
@@ -57,10 +59,7 @@ if (isset($_POST['tambah'])) {
                 <td><?php echo $penjualan['no_notajual'];?></td>
                 <td><?php echo $penjualan['id_pegawai'];?></td>
                 <td><?php echo $penjualan['id_barang'];?></td>
-                <?php $id_barang = (int)$_GET['id_barang'];
-                $nama = select("SELECT nama_barang FROM barang where id_barang = $id_barang");
-                ?>
-                <td><?php echo $nama;?></td>
+                <td><?php echo $penjualan['nama_barang'];?></td>
                 <td><?php echo $penjualan['jmlh_barang'];?></td>
                 <td><?php echo $penjualan['tgl_transaksi'];?></td>
                 <td><?php echo $penjualan['total'];?></td>
@@ -115,11 +114,10 @@ if (isset($_POST['tambah'])) {
                          </option>';
               ?>
               <?php endforeach; ?>
+              <input type="hidden" name="nama_barang" id="nama_barang" value="<?= $barang['nama_barang']; ?>">
               </select>
             </div>
              
-            <input type="hidden" name="nama_barang" id="nama_barang" value="">
-          
             <div class="mb-3">
               <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
               <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang" required>
