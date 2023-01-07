@@ -148,8 +148,7 @@ if (isset($_POST['tambah'])) {
       </div>
     </div>
 
-
-    <style>
+<style>
 
 .search{
     position: relative;

@@ -6,7 +6,7 @@ include 'config/function.php';
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
-  if (create_datajual($_POST) > 0) {
+  if (create_data($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
             document.location.href = 'barang.php';
@@ -31,7 +31,7 @@ if (isset($_POST['tambah'])) {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<form method="GET" action="">
+<form method="GET" action="" class="search">
   <input type="text" name="cari" value="<?php if(isset($_GET['cari'])){ echo $_GET['cari']; }?>" placeholder="Search here ...">
   <i class="fa fa-search"></i>
 </form>
@@ -155,9 +155,9 @@ if (isset($_POST['tambah'])) {
     </div>
 
 
-<style>
+    <style>
 
-form{
+.search{
     position: relative;
     top: 50%;
     left: 50%;
@@ -172,7 +172,7 @@ form{
     padding: 5px;
 }
 
-input{
+.search input{
     position: absolute;
     top: 0;
     left: 0;
@@ -202,16 +202,16 @@ input{
     transition: all 1s;
 }
 
-form:hover{
+.search:hover{
     width: 300px;
     cursor: pointer;
 }
 
-form:hover input{
+.search:hover input{
     display: block;
 }
 
-form:hover .fa{
+.search:hover .fa{
     background: #07051a;
     color: white;
 }
