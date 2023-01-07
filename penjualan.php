@@ -3,15 +3,13 @@
 $title = 'Penjualan Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_penjualan = select("SELECT * FROM penjualan");
+$data_penjualan = select("SELECT * FROM penjualan ORDER BY tgl_transaksi");
 $data_barang = select("SELECT * FROM barang");
 $data_pelanggan = select("SELECT * FROM pelanggan");
 
-
-
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
-  if (create_data($_POST) > 0) {
+  if (create_datajual($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
             document.location.href = 'penjualan.php';
@@ -21,6 +19,23 @@ if (isset($_POST['tambah'])) {
   else {
     echo "<script>
             alert('Data gagal ditambahkan!');
+            document.location.href = 'penjualan.php';
+           </script>";
+  }
+}
+
+//cek apakah tombol edit ditekan
+if (isset($_POST['edit'])) {
+  if (edit_datajual($_POST) > 0) {
+    echo "<script>
+            alert('Data berhasil diubah!');
+            document.location.href = 'penjualan.php';
+           </script>";
+  }
+
+  else {
+    echo "<script>
+            alert('Data gagal diubah!');
             document.location.href = 'penjualan.php';
            </script>";
   }
@@ -54,6 +69,7 @@ if (isset($_POST['tambah'])) {
     <tbody>
       <?php $no = 1; ?>
       <?php foreach($data_penjualan as $penjualan) : ?>
+      <?php $id_edit = $penjualan['no_notajual'] ?>
             <tr>
                 <td><?php echo $no++;?></td>
                 <td><?php echo $penjualan['no_notajual'];?></td>
@@ -65,7 +81,8 @@ if (isset($_POST['tambah'])) {
                 <td><?php echo $penjualan['total'];?></td>
                 <td><?php echo $penjualan['no_hp'];?></td>
                 <td>
-                  <a class="btn btn-primary" href="penjualan_edit.php?no_notajual=<?= $penjualan['no_notajual']?>">Edit</a>
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_edit; ?>">Edit</a>
+                  <input type="hidden" name="id_edit" id="id_edit" value="<?= $id_edit; ?>">
                   <a class="btn btn-secondary" href="penjualan_hapus.php?no_notajual=<?= $penjualan['no_notajual']?>" 
                   onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
                 </td>
@@ -136,7 +153,7 @@ if (isset($_POST['tambah'])) {
             <div class="mb-3">
               <label for="no_hp" class="form-label">Pelanggan</label>
               <select name="no_hp" id="no_hp" class="form-control" required>
-              <option selected value="">::Pilih Nomor HP::</option>
+              <option selected value="">::Pilih Pelanggan::</option>
               <?php foreach($data_pelanggan as $pelanggan) : ?>
               <?php echo'<option value="'.$pelanggan['no_hp'].'">
                           '.$pelanggan['no_hp'].' <p>-</p> '.$pelanggan['nama'].'
@@ -150,6 +167,67 @@ if (isset($_POST['tambah'])) {
 
           <div class="modal-footer" >
             <button type="submit" name="tambah" id="tambah" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!--Edit Data-->
+    <div class="modal fade" id="edit<?= $id_edit; ?>">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">Edit Data</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <form class="p-3 bg-body rounded" method="post" action="">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="no_notajual" class="form-label">Nomor Nota Jual</label>
+              <input type="number" class="form-control" name="no_notajual" value="<?= $penjualan['no_notajual']; ?>" id="no_notajual" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="id_pegawai" class="form-label">ID Pegawai</label>
+              <input type="text" class="form-control" name="id_pegawai" id="id_pegawai" 
+              value="<?= $penjualan['id_pegawai']; ?>" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="id_barang" class="form-label">ID Barang</label>
+              <input type="number" class="form-control" name="id_barang" value="<?= $penjualan['id_barang']; ?>" id="id_barang" disabled>
+            </div>
+             
+            <div class="mb-3">
+              <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
+              <input type="number" class="form-control" name="jmlh_barang" value="<?= $penjualan['jmlh_barang']; ?>" id="jmlh_barang" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
+              <input type="date" class="form-control" name="tgl_transaksi" value="<?= $penjualan['tgl_transaksi']; ?>" id="tgl_transaksi" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="total" class="form-label">Total</label>
+              <input type="number" class="form-control" name="total" value="<?= $penjualan['total']; ?>" id="total" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="no_hp" class="form-label">No HP</label>
+              <input type="text" class="form-control" name="no_hp" id="no_hp" 
+              value="<?= $penjualan['no_hp']; ?>" disabled>
+            </div>
+
+          </div>
+
+          <div class="modal-footer" >
+            <button type="submit" name="edit" id="edit" class="btn btn-primary">Edit</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
