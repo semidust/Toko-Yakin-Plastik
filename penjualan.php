@@ -5,6 +5,7 @@ include 'layout/navbar.php';
 include 'config/function.php';
 $data_penjualan = select("SELECT * FROM penjualan");
 $data_barang = select("SELECT * FROM barang");
+$data_pelanggan = select("SELECT * FROM pelanggan");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
@@ -56,7 +57,10 @@ if (isset($_POST['tambah'])) {
                 <td><?php echo $penjualan['no_notajual'];?></td>
                 <td><?php echo $penjualan['id_pegawai'];?></td>
                 <td><?php echo $penjualan['id_barang'];?></td>
-                <td><?php echo $penjualan['nama_barang'];?></td>
+                <?php $id_barang = (int)$_GET['id_barang'];
+                $nama = select("SELECT nama_barang FROM barang where id_barang = $id_barang");
+                ?>
+                <td><?php echo $nama;?></td>
                 <td><?php echo $penjualan['jmlh_barang'];?></td>
                 <td><?php echo $penjualan['tgl_transaksi'];?></td>
                 <td><?php echo $penjualan['total'];?></td>
@@ -113,6 +117,8 @@ if (isset($_POST['tambah'])) {
               <?php endforeach; ?>
               </select>
             </div>
+             
+            <input type="hidden" name="nama_barang" id="nama_barang" value="">
           
             <div class="mb-3">
               <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
@@ -130,8 +136,16 @@ if (isset($_POST['tambah'])) {
             </div>
 
             <div class="mb-3">
-              <label for="no_hp" class="form-label">Nomor HP</label>
-              <input type="text" class="form-control" name="no_hp" id="no_hp" required>
+              <label for="no_hp" class="form-label">Pelanggan</label>
+              <select name="no_hp" id="no_hp" class="form-control" required>
+              <option selected value="">::Pilih Nomor HP::</option>
+              <?php foreach($data_pelanggan as $pelanggan) : ?>
+              <?php echo'<option value="'.$pelanggan['no_hp'].'">
+                          '.$pelanggan['no_hp'].' <p>-</p> '.$pelanggan['nama'].'
+                         </option>';
+              ?>
+              <?php endforeach; ?>
+              </select>
             </div>
 
           </div>
