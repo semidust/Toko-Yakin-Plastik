@@ -67,9 +67,8 @@ if (isset($_POST['edit'])) {
         </tr>
     </thead>
     <tbody>
-
+      <?php $no = 1; ?>
       <?php while($penjualan = mysqli_fetch_array($data_penjualan)) {
-        $no = 1;
         $nota = $penjualan['no_notajual'];
         $pegawai = $penjualan['id_pegawai'];
         $id_barang = $penjualan['id_barang'];
@@ -79,6 +78,7 @@ if (isset($_POST['edit'])) {
         $total = $penjualan['total'];
         $no_hp = $penjualan['no_hp'];
       ?>
+      
             <tr>
                 <td><?php echo $no++;?></td>
                 <td><?php echo $nota;?></td>
@@ -171,10 +171,11 @@ if (isset($_POST['edit'])) {
                 </div>
               </div>
 
-    </tbody>
     <?php
       };
     ?>
+    </tbody>
+
 </table>
 
 
