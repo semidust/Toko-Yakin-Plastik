@@ -1,12 +1,14 @@
 <?php
 
-$title = 'Data Pegawai';
+$title = 'Penjualan Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
+$data_pegawai = select("SELECT * FROM pegawai");
+// $data_pelanggan = select("SELECT * FROM pelanggan");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
-  if (create_data($_POST) > 0) {
+  if (create_datapegawai($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
             document.location.href = 'pegawai.php';
@@ -16,6 +18,23 @@ if (isset($_POST['tambah'])) {
   else {
     echo "<script>
             alert('Data gagal ditambahkan!');
+            document.location.href = 'pegawai.php';
+           </script>";
+  }
+}
+
+//cek apakah tombol edit ditekan
+if (isset($_POST['edit'])) {
+  if (edit_datapegawai($_POST) > 0) {
+    echo "<script>
+            alert('Data berhasil diubah!');
+            document.location.href = 'pegawai.php';
+           </script>";
+  }
+
+  else {
+    echo "<script>
+            alert('Data gagal diubah!');
             document.location.href = 'pegawai.php';
            </script>";
   }
@@ -45,6 +64,7 @@ if (isset($_POST['tambah'])) {
             <th>No.</th>
             <th>ID Pegawai</th>
             <th>Nama Pegawai</th>
+
             <th>Edit | Delete</th>
         </tr>
     </thead>
@@ -53,23 +73,23 @@ if (isset($_POST['tambah'])) {
       <?php
         if(isset($_GET['cari'])) {
           $pencarian = $_GET['cari'];
-          $query = "SELECT * FROM pegawai where nama_pegawai like '%".$pencarian."%'
+          $query = "SELECT id_pegawai, nama_pegawai FROM pegawai where nama_pegawai like '%".$pencarian."%'
           or id_pegawai like '%".$pencarian."%' ORDER BY id_pegawai ";
         }
         else {
-          $query = "SELECT * FROM pegawai";
+          $query = "SELECT id_pegawai, nama_pegawai FROM pegawai";
         }
 
-        $data_barang = select($query);
+        $data_pegawai = select($query);
       ?>
-      <?php foreach($data_barang as $pegawai) : ?>
+      <?php foreach($data_pegawai as $pegawai) : ?>
             <tr>
                 <td><?php echo $no++;?></td>
                 <td><?php echo $pegawai['id_pegawai'];?></td>
                 <td><?php echo $pegawai['nama_pegawai'];?></td>
                 <td>
-                  <a class="btn btn-primary" href="pegawai_edit.php?no_notajual=<?= $pegawai['id_pegawai']?>">Edit</a>
-                  <a class="btn btn-secondary" href="pegawai_hapus.php?no_notajual=<?= $pegawai['id_pegawai']?>" 
+                  <a class="btn btn-primary" href="pegawai_edit.php?id_pegawai=<?= $pegawai['id_pegawai']?>">Edit</a>
+                  <a class="btn btn-secondary" href="pegawai_hapus.php?id_pegawai=<?= $pegawai['id_pegawai']?>" 
                   onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
                 </td>
             </tr>
@@ -95,45 +115,19 @@ if (isset($_POST['tambah'])) {
 
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor Nota Jual</label>
-              <input type="number" class="form-control" name="no_notajual" id="no_notajual">
+          <div class="mb-3">
+              <label for="id_pegawai" class="form-label">ID Pegawai</label>
+              <input type="number" class="form-control" name="id_pegawai" id="id_pegawai">
             </div>
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">ID Pegawai</label>
-              <input type="text" class="form-control" name="id_pegawai" id="id_pegawai" 
-              value="<?= $_SESSION['id_pegawai']; ?>" disabled>
+              <label for="nama_pegawai" class="form-label">Nama Pegawai</label>
+              <input type="text" class="form-control" name="nama_pegawai" id="nama_pegawai">
             </div>
 
             <div class="mb-3">
-              <label for="nama" class="form-label">ID Barang</label>
-              <input type="number" class="form-control" name="id_barang" id="id_barang">
-            </div>
-
-            <div class="mb-3">
-              <label for="nama" class="form-label">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang" id="nama_barang">
-            </div>
-          
-            <div class="mb-3">
-              <label for="tickets" class="form-label">Jumlah Barang</Title></label>
-              <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang">
-            </div>
-
-            <div class="mb-3">
-              <label for="price" class="form-label">Tanggal Transaksi</label>
-              <input type="date" class="form-control" name="tgl_transaksi" id="tgl_transaksi">
-            </div>
-
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Total</label>
-              <input type="number" class="form-control" name="total" id="total">
-            </div>
-
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor HP</label>
-              <input type="text" class="form-control" name="no_hp" id="no_hp">
+              <label for="password_pegawai" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password_pegawai" id="password_pegawai">
             </div>
 
           </div>

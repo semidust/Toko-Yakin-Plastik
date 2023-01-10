@@ -22,7 +22,7 @@
     session_start();
     $id_pegawai = $_POST['id_pegawai'];
     $password = $_POST['password'];
-    $query = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai' and password = '$password'");
+    $query = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai' and password_pegawai = '$password'");
     
     $cek = mysqli_num_rows($query);
 

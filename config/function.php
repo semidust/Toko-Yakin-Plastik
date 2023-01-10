@@ -74,4 +74,48 @@ function edit_datajual($post)
     return mysqli_affected_rows($db);
 }
 
+//fungsi menghapus data pelanggan
+function delete_datapelanggan($no_hp)
+{
+    global $koneksi;
+
+    //query hapus data 
+    $query = "DELETE FROM pelanggan WHERE no_hp = $no_hp";
+
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+}
+
+//fungsi menghapus data pegawai
+function delete_datapegawai($id_pegawai)
+{
+    global $koneksi;
+
+    //query hapus data 
+    $query = "DELETE FROM pegawai WHERE id_pegawai = $id_pegawai";
+
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+}
+
+//fungsi menambah data pegawai
+function create_datapegawai($post)
+{
+    global $koneksi;
+
+    $id_pegawai = $post['id_pegawai'];
+    $nama_pegawai = $post['nama_pegawai'];
+    $password_pegawai = $post['password_pegawai'];
+
+    //query tambah data
+    $query = "INSERT INTO pegawai (id_pegawai, nama_pegawai, password_pegawai) VALUES('$id_pegawai', '$nama_pegawai', '$password_pegawai')";
+
+    mysqli_query($koneksi, $query);
+
+    return mysqli_affected_rows($koneksi);
+}   
+
+
 ?>

@@ -70,8 +70,8 @@ if (isset($_POST['tambah'])) {
                 <td><?php echo $pelanggan['no_hp'];?></td>
                 <td><?php echo $pelanggan['alamat'];?></td>
                 <td>
-                  <a class="btn btn-primary" href="pelanggan_edit.php?no_notajual=<?= $pelanggan['no_hp']?>">Edit</a>
-                  <a class="btn btn-secondary" href="pelanggan_hapus.php?no_notajual=<?= $pelanggan['no_hp']?>" 
+                  <a class="btn btn-primary" href="pelanggan_edit.php?no_hp=<?= $pelanggan['no_hp']?>">Edit</a>
+                  <a class="btn btn-secondary" href="pelanggan_hapus.php?no_hp=<?= $pelanggan['no_hp']?>" 
                   onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
                 </td>
             </tr>
@@ -108,9 +108,11 @@ if (isset($_POST['tambah'])) {
               value="<?= $_SESSION['id_pelanggan']; ?>" disabled>
             </div>
 
+
+
             <div class="mb-3">
-              <label for="nama" class="form-label">ID Barang</label>
-              <input type="number" class="form-control" name="id_barang" id="id_barang">
+              <label for="id_pegawai" class="form-label">ID Pegawai</label>
+              <input type="number" class="form-control" name="id_pegawai" id="id_pegawai">
             </div>
 
             <div class="mb-3">

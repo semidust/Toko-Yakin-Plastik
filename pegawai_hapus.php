@@ -2,19 +2,19 @@
 
 include 'config/function.php'; 
 
-$no_notajual = $_GET['no_notajual'];
+$id_pegawai = $_GET['id_pegawai'];
 
-if(delete_data($no_notajual) > 0){
+if(delete_datapegawai($id_pegawai) > 0){
     echo "<script> 
             alert('Data berhasil dihapus!');
-            document.location.href = 'penjualan.php';
+            document.location.href = 'pegawai.php';
         </script>";
 }
 
 else{
     echo "<script> 
             alert('Data gagal dihapus!');
-            document.location.href = 'penjualan.php';
+            document.location.href = 'pegawai.php';
         </script>";
 }
 
