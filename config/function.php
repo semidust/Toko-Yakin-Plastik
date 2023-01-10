@@ -58,20 +58,25 @@ function create_datajual($post)
 //fungsi edit data penjualan
 function edit_datajual($post)
 {
-    global $db;
+    global $koneksi;
 
-    $id_edit = $post['id_edit'];
+    $no_notajual = $post['id_edit'];
+    $id_pegawai = $post['id_pegawai(edit)'];
+    $id_barang = $post['id_barang(edit)'];
+    $nama_barang = $post['nama_barang(edit)'];
     $jmlh_barang = $post['jmlh_barang'];
     $tgl_transaksi = $post['tgl_transaksi'];
     $total = $post['total'];
+    $no_hp = $post['no_hp(edit)'];
 
     //query ubah data
-    $query = "UPDATE penjualan SET jmlh_barang = '$jmlh_barang', tgl_transaksi = '$tgl_transaksi', total = '$total', 
-     WHERE no_notajual = $id_edit";
+    $query = "UPDATE penjualan SET no_notajual = '$no_notajual', id_pegawai = '$id_pegawai', id_barang = '$id_barang',
+    nama_barang = '$nama_barang', jmlh_barang = '$jmlh_barang', tgl_transaksi = '$tgl_transaksi', total = '$total', 
+    no_hp = '$no_hp' WHERE no_notajual = $no_notajual";
 
-    mysqli_query($db, $query);
+    mysqli_query($koneksi, $query);
 
-    return mysqli_affected_rows($db);
+    return mysqli_affected_rows($koneksi);
 }
 
 //fungsi menghapus data pelanggan

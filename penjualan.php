@@ -3,7 +3,7 @@
 $title = 'Penjualan Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_penjualan = select("SELECT * FROM penjualan ORDER BY tgl_transaksi");
+$data_penjualan = mysqli_query($koneksi, "SELECT * FROM penjualan");
 $data_barang = select("SELECT * FROM barang");
 $data_pelanggan = select("SELECT * FROM pelanggan");
 
@@ -67,29 +67,116 @@ if (isset($_POST['edit'])) {
         </tr>
     </thead>
     <tbody>
-      <?php $no = 1; ?>
-      <?php foreach($data_penjualan as $penjualan) : ?>
-      <?php $id_edit = $penjualan['no_notajual'] ?>
+
+      <?php while($penjualan = mysqli_fetch_array($data_penjualan)) {
+        $no = 1;
+        $nota = $penjualan['no_notajual'];
+        $pegawai = $penjualan['id_pegawai'];
+        $id_barang = $penjualan['id_barang'];
+        $nama_barang = $penjualan['nama_barang'];
+        $jumlah = $penjualan['jmlh_barang'];
+        $tanggal = $penjualan['tgl_transaksi'];
+        $total = $penjualan['total'];
+        $no_hp = $penjualan['no_hp'];
+      ?>
             <tr>
                 <td><?php echo $no++;?></td>
-                <td><?php echo $penjualan['no_notajual'];?></td>
-                <td><?php echo $penjualan['id_pegawai'];?></td>
-                <td><?php echo $penjualan['id_barang'];?></td>
-                <td><?php echo $penjualan['nama_barang'];?></td>
-                <td><?php echo $penjualan['jmlh_barang'];?></td>
-                <td><?php echo $penjualan['tgl_transaksi'];?></td>
-                <td><?php echo $penjualan['total'];?></td>
-                <td><?php echo $penjualan['no_hp'];?></td>
+                <td><?php echo $nota;?></td>
+                <td><?php echo $pegawai;?></td>
+                <td><?php echo $id_barang;?></td>
+                <td><?php echo $nama_barang;?></td>
+                <td><?php echo $jumlah;?></td>
+                <td><?php echo $tanggal;?></td>
+                <td><?php echo $total;?></td>
+                <td><?php echo $no_hp;?></td>
                 <td>
-                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_edit; ?>">Edit</a>
-                  <input type="hidden" name="id_edit" id="id_edit" value="<?= $id_edit; ?>">
-                  <a class="btn btn-secondary" href="penjualan_hapus.php?no_notajual=<?= $penjualan['no_notajual']?>" 
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $nota; ?>">Edit</a>
+                  <input type="hidden" name="id_edit" id="id_edit" value="<?= $nota; ?>">
+                  <a class="btn btn-secondary" href="penjualan_hapus.php?no_notajual=<?= $nota?>" 
                   onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
                 </td>
             </tr>
-      <?php endforeach; ?>
+
+              <!--Edit Data-->
+              <div class="modal fade" id="edit<?= $nota; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Edit Data</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form class=" bg-body rounded" method="post" action="">
+                    <div class="modal-body">
+                      <input type="hidden" name="id_edit" id="id_edit" value="<?= $nota; ?>">
+
+                      <div class="mb-3">
+                        <label for="no_notajual" class="form-label">Nomor Nota Jual</label>
+                        <input type="number" class="form-control" name="no_notajual" value="<?= $nota; ?>" id="no_notajual" disabled>
+                        <input type="hidden" name="no_notajual(edit)" id="no_notajual(edit)" value="<?= $nota; ?>">
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="id_pegawai" class="form-label">ID Pegawai</label>
+                        <input type="text" class="form-control" name="id_pegawai" id="id_pegawai" 
+                        value="<?= $pegawai; ?>" disabled>
+                        <input type="hidden" name="id_pegawai(edit)" id="id_pegawai(edit)" value="<?= $pegawai; ?>">
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="id_barang" class="form-label">ID Barang</label>
+                        <input type="number" class="form-control" name="id_barang" value="<?= $id_barang; ?>" id="id_barang" disabled>
+                        <input type="hidden" name="id_barang(edit)" id="id_barang(edit)" value="<?= $id_barang; ?>">
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="id_pegawai" class="form-label">Nama Barang</label>
+                        <input type="text" class="form-control" name="nama_barang" id="nama_barang" 
+                        value="<?= $nama_barang; ?>" disabled>
+                        <input type="hidden" name="nama_barang(edit)" id="nama_barang(edit)" value="<?= $nama_barang; ?>">
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
+                        <input type="number" class="form-control" name="jmlh_barang" value="<?= $jumlah; ?>" id="jmlh_barang" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
+                        <input type="date" class="form-control" name="tgl_transaksi" value="<?= $tanggal; ?>" id="tgl_transaksi" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" class="form-control" name="total" value="<?= $total; ?>" id="total" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="no_hp" class="form-label">No HP</label>
+                        <input type="text" class="form-control" name="no_hp" id="no_hp" 
+                        value="<?= $no_hp; ?>" disabled>
+                        <input type="hidden" name="no_hp(edit)" id="no_hp(edit)" value="<?= $no_hp; ?>">
+                      </div>
+
+                    </div>
+
+                    <div class="modal-footer" >
+                      <button type="submit" name="edit" id="edit" class="btn btn-primary">Edit</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
     </tbody>
+    <?php
+      };
+    ?>
 </table>
+
 
     <center>
     <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
@@ -175,66 +262,8 @@ if (isset($_POST['edit'])) {
       </div>
     </div>
 
-    <!--Edit Data-->
-    <div class="modal fade" id="edit<?= $id_edit; ?>">
-      <div class="modal-dialog">
-        <div class="modal-content">
+    
 
-          <div class="modal-header">
-            <h4 class="modal-title">Edit Data</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <form class="p-3 bg-body rounded" method="post" action="">
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="no_notajual" class="form-label">Nomor Nota Jual</label>
-              <input type="number" class="form-control" name="no_notajual" value="<?= $penjualan['no_notajual']; ?>" id="no_notajual" disabled>
-            </div>
-
-            <div class="mb-3">
-              <label for="id_pegawai" class="form-label">ID Pegawai</label>
-              <input type="text" class="form-control" name="id_pegawai" id="id_pegawai" 
-              value="<?= $penjualan['id_pegawai']; ?>" disabled>
-            </div>
-
-            <div class="mb-3">
-              <label for="id_barang" class="form-label">ID Barang</label>
-              <input type="number" class="form-control" name="id_barang" value="<?= $penjualan['id_barang']; ?>" id="id_barang" disabled>
-            </div>
-             
-            <div class="mb-3">
-              <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
-              <input type="number" class="form-control" name="jmlh_barang" value="<?= $penjualan['jmlh_barang']; ?>" id="jmlh_barang" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
-              <input type="date" class="form-control" name="tgl_transaksi" value="<?= $penjualan['tgl_transaksi']; ?>" id="tgl_transaksi" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="total" class="form-label">Total</label>
-              <input type="number" class="form-control" name="total" value="<?= $penjualan['total']; ?>" id="total" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="no_hp" class="form-label">No HP</label>
-              <input type="text" class="form-control" name="no_hp" id="no_hp" 
-              value="<?= $penjualan['no_hp']; ?>" disabled>
-            </div>
-
-          </div>
-
-          <div class="modal-footer" >
-            <button type="submit" name="edit" id="edit" class="btn btn-primary">Edit</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-
-        </div>
-      </div>
-    </div>
 
 
 <style>
