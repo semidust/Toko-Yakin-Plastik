@@ -23,6 +23,23 @@ if (isset($_POST['tambah'])) {
   }
 }
 
+//cek apakah tombol edit ditekan
+if (isset($_POST['edit'])) {
+  if (edit_datapelanggan($_POST) > 0) {
+    echo "<script>
+            alert('Data berhasil diubah!');
+            document.location.href = 'pelanggan.php';
+           </script>";
+  }
+
+  else {
+    echo "<script>
+            alert('Data gagal diubah!');
+            document.location.href = 'pelanggan.php';
+           </script>";
+  }
+}
+
 ?>
 
 <h2 class="judul">Data Pelanggan</h2>

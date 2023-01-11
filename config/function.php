@@ -205,7 +205,7 @@ function create_databarang($post)
 {
     global $koneksi;
 
-    $id_barang = $_SESSION['id_barang'];
+    $id_barang = $post['id_barang'];
     $nama_barang = $post['nama_barang'];
     $modal = $post['modal'];
     $harga = $post['harga'];
