@@ -50,6 +50,79 @@ if (isset($_POST['edit'])) {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<form method="GET" action="" class="search">
+  <input type="text" name="cari" value="<?php if(isset($_GET['cari'])){ echo $_GET['cari']; }?>" placeholder="Search here ...">
+  <i class="fa fa-search"></i>
+</form>
+<br><br>
+
+  <div class="row"; style="width: 50%">
+      <div class="col">
+        <form method="post" class="form-inline">
+        <input type="date" name="tgl_mulai" class="form-control">
+      </div>
+
+      <div class="col">
+        <input type="date" name="tgl_selesai" class="form-control">
+      </div>
+
+      <div class="col">
+        <button type="submit" name="filter_tgl" class="btn btn-info">Filter</button>
+        </form>
+      </div>
+  </div>
+
+  <br><br>
+
+  <?php
+    if(isset($_GET['cari'])) {
+      $pencarian = $_GET['cari'];
+      if(isset($_POST['filter_tgl'])) {
+        $mulai = $_POST['tgl_mulai'];
+        $selesai = $_POST['tgl_selesai'];
+
+        if($mulai!=null || $selesai!=null) {
+          $query = "SELECT * FROM penjualan 
+          WHERE (nama_barang LIKE '%".$pencarian."%' OR no_notajual LIKE '%".$pencarian."%')
+          AND (tgl_transaksi BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
+          ORDER BY no_notajual";
+        }
+        else {
+          $query = $query = "SELECT * FROM penjualan 
+          WHERE (nama_barang LIKE '%".$pencarian."%' OR no_notajual LIKE '%".$pencarian."%')
+          ORDER BY no_notajual";
+        }
+      }
+
+      else {
+        $query = $query = "SELECT * FROM penjualan 
+        WHERE (nama_barang LIKE '%".$pencarian."%' OR no_notajual LIKE '%".$pencarian."%')
+        ORDER BY no_notajual";
+      }
+    }
+
+    else {
+      if(isset($_POST['filter_tgl'])) {
+        $mulai = $_POST['tgl_mulai'];
+        $selesai = $_POST['tgl_selesai'];
+
+        if($mulai!=null || $selesai!=null) {
+          $query = "SELECT * FROM penjualan
+          WHERE tgl_transaksi BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY)
+          ORDER BY no_notajual";
+        }
+        else {
+          $query = "SELECT * FROM penjualan";
+        }
+      }
+
+      else {
+        $query = "SELECT * FROM penjualan";
+      }
+    }
+      $data_penjualan = mysqli_query($koneksi, $query);
+  ?>
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
@@ -67,7 +140,10 @@ if (isset($_POST['edit'])) {
         </tr>
     </thead>
     <tbody>
-      <?php $no = 1; ?>
+      <?php 
+        $no = 1;
+        $totaljual = 0;
+      ?>
       <?php while($penjualan = mysqli_fetch_array($data_penjualan)) {
         $nota = $penjualan['no_notajual'];
         $pegawai = $penjualan['id_pegawai'];
@@ -77,8 +153,8 @@ if (isset($_POST['edit'])) {
         $tanggal = $penjualan['tgl_transaksi'];
         $total = $penjualan['total'];
         $no_hp = $penjualan['no_hp'];
+        $totaljual += $total;
       ?>
-      
             <tr>
                 <td><?php echo $no++;?></td>
                 <td><?php echo $nota;?></td>
@@ -86,14 +162,14 @@ if (isset($_POST['edit'])) {
                 <td><?php echo $id_barang;?></td>
                 <td><?php echo $nama_barang;?></td>
                 <td><?php echo $jumlah;?></td>
-                <td><?php echo $tanggal;?></td>
+                <td><?php echo date('d-m-Y', strtotime($tanggal));?></td>
                 <td><?php echo $total;?></td>
                 <td><?php echo $no_hp;?></td>
                 <td>
                   <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $nota; ?>">Edit</a>
                   <input type="hidden" name="id_edit" id="id_edit" value="<?= $nota; ?>">
-                  <a class="btn btn-secondary" href="penjualan_hapus.php?no_notajual=<?= $nota?>" 
-                  onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
+                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $nota?>">Delete</a>
+                  <input type="hidden" name="id_hapus" id="id_hapus" value="<?= $nota; ?>">
                 </td>
             </tr>
 
@@ -171,17 +247,47 @@ if (isset($_POST['edit'])) {
                 </div>
               </div>
 
+              <!--Delete Data-->
+              <div class="modal fade" id="delete<?= $nota; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Hapus Data</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form>
+                    <div class="modal-body">
+                      <input type="hidden" name="id_hapus" id="id_hapus" value="<?= $nota; ?>">
+                      <p>Apakah yakin ingin menghapus Nota Jual <?= $nota;?>?</p>
+                    </div>
+
+                    <div class="modal-footer" >
+                      <a class="btn btn-primary" href="penjualan_hapus.php?no_notajual=<?= $nota?>">Delete</a>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
     <?php
       };
     ?>
     </tbody>
 
 </table>
-
+    
+    <div class="container">
+      <p class="judul">Total : Rp<?= $totaljual; ?></p>
+    </div>
+    <br>
 
     <center>
     <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
-    <a class="btn btn-secondary" href="index.html">Back</a> 
+    <a class="btn btn-secondary" href="index.php">Back</a> 
     </center>
     <br><br><br><br>
 
@@ -219,9 +325,11 @@ if (isset($_POST['edit'])) {
                          </option>';
               ?>
               <?php endforeach; ?>
-              <input type="hidden" name="nama_barang" id="nama_barang" value="<?= $barang['nama_barang']; ?>">
               </select>
             </div>
+              
+
+              <input type="text" name="nama_barang" id="nama_barang" value="<?= $barang['nama_barang']; ?>">
              
             <div class="mb-3">
               <label for="jmlh_barang" class="form-label">Jumlah Barang</Title></label>
@@ -263,11 +371,66 @@ if (isset($_POST['edit'])) {
       </div>
     </div>
 
-    
-
-
 
 <style>
+  .search{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: all 1s;
+    width: 50px;
+    height: 50px;
+    background: white;
+    box-sizing: border-box;
+    border-radius: 25px;
+    border: 4px solid white;
+    padding: 5px;
+}
+
+.search input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;;
+    height: 42.5px;
+    line-height: 30px;
+    outline: 0;
+    border: 0;
+    display: none;
+    font-size: 1em;
+    border-radius: 20px;
+    padding: 0 20px;
+}
+
+.fa{
+    box-sizing: border-box;
+    padding: 10px;
+    width: 42.5px;
+    height: 42.5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    color: #07051a;
+    text-align: center;
+    font-size: 1.2em;
+    transition: all 1s;
+}
+
+.search:hover{
+    width: 300px;
+    cursor: pointer;
+}
+
+.search:hover input{
+    display: block;
+}
+
+.search:hover .fa{
+    background: #07051a;
+    color: white;
+}
 
   body{
     padding-top: 2em;
@@ -282,6 +445,14 @@ if (isset($_POST['edit'])) {
     font-weight: bold;
     font-size: 3rem;
     margin-top: 2em;
+    line-height: 3.3rem;
+  }
+
+  .container p {
+    color:white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
     line-height: 3.3rem;
   }
 

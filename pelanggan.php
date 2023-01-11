@@ -87,6 +87,7 @@ if (isset($_POST['tambah'])) {
     <a class="btn btn-secondary" href="index.php">Back</a> 
     </center>
     <br><br><br><br>
+    
 
     <!--Add Data-->
     <div class="modal fade" id="add">
