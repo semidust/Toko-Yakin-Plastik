@@ -3,10 +3,11 @@
 $title = 'Data Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
+$data_barang = select("SELECT * FROM barang");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
-  if (create_data($_POST) > 0) {
+  if (create_databarang($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
             document.location.href = 'barang.php';
@@ -65,6 +66,11 @@ if (isset($_POST['tambah'])) {
 
         $data_barang = select($query);
       ?>
+          <center>
+    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
+    <a class="btn btn-secondary" href="index.php">Back</a> 
+    </center>
+    <br><br><br><br>
       <?php foreach($data_barang as $barang) : ?>
             <tr>
                 <td><?php echo $no++;?></td>
@@ -74,8 +80,8 @@ if (isset($_POST['tambah'])) {
                 <td><?php echo $barang['harga'];?></td>
                 <td><?php echo $barang['stok'];?></td>
                 <td>
-                  <a class="btn btn-primary" href="barang_edit.php?no_notajual=<?= $barang['id_barang']?>">Edit</a>
-                  <a class="btn btn-secondary" href="barang_hapus.php?no_notajual=<?= $barang['id_barang']?>" 
+                  <a class="btn btn-primary" href="barang_edit.php?id_barang=<?= $barang['id_barang']?>">Edit</a>
+                  <a class="btn btn-secondary" href="barang_hapus.php?id_barang=<?= $barang['id_barang']?>" 
                   onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
                 </td>
             </tr>
@@ -83,11 +89,7 @@ if (isset($_POST['tambah'])) {
     </tbody>
 </table>
 
-    <center>
-    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
-    <a class="btn btn-secondary" href="index.php">Back</a> 
-    </center>
-    <br><br><br><br>
+
 
     <!--Add Data-->
     <div class="modal fade" id="add">
@@ -101,46 +103,35 @@ if (isset($_POST['tambah'])) {
 
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor Nota Jual</label>
-              <input type="number" class="form-control" name="no_notajual" id="no_notajual">
-            </div>
+
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">ID Pegawai</label>
-              <input type="text" class="form-control" name="id_pegawai" id="id_pegawai" 
-              value="<?= $_SESSION['id_pegawai']; ?>" disabled>
-            </div>
-
-            <div class="mb-3">
-              <label for="nama" class="form-label">ID Barang</label>
+              <label for="id_barang" class="form-label">ID Barang</label>
               <input type="number" class="form-control" name="id_barang" id="id_barang">
             </div>
 
             <div class="mb-3">
-              <label for="nama" class="form-label">Nama Barang</label>
+              <label for="nama_barang" class="form-label">Nama Barang</label>
               <input type="text" class="form-control" name="nama_barang" id="nama_barang">
             </div>
           
             <div class="mb-3">
-              <label for="tickets" class="form-label">Jumlah Barang</Title></label>
-              <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang">
+              <label for="modal" class="form-label">Modal</Title></label>
+              <input type="number" class="form-control" name="modal" id="modal">
             </div>
 
             <div class="mb-3">
-              <label for="price" class="form-label">Tanggal Transaksi</label>
-              <input type="date" class="form-control" name="tgl_transaksi" id="tgl_transaksi">
+              <label for="harga" class="form-label">Harga_Jual</label>
+              <input type="number" class="form-control" name="harga" id="harga">
             </div>
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">Total</label>
-              <input type="number" class="form-control" name="total" id="total">
+              <label for="stok" class="form-label">Stok</Title></label>
+              <input type="number" class="form-control" name="stok" id="stok">
             </div>
 
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor HP</label>
-              <input type="text" class="form-control" name="no_hp" id="no_hp">
-            </div>
+
+
 
           </div>
 

@@ -1,12 +1,14 @@
 <?php
 
-$title = 'Data Pegawai';
+$title = 'Data Pelanggan';
 include 'layout/navbar.php';
 include 'config/function.php';
+$data_pelanggan = select("SELECT * FROM pelanggan");
+// $data_pelanggan = select("SELECT * FROM pelanggan");
 
 //cek apakah tombol add ditekan
 if (isset($_POST['tambah'])) {
-  if (create_data($_POST) > 0) {
+  if (create_datapelanggan($_POST) > 0) {
     echo "<script>
             alert('Data berhasil ditambahkan!');
             document.location.href = 'pelanggan.php';
@@ -44,17 +46,18 @@ if (isset($_POST['tambah'])) {
         <tr>
             <th>No.</th>
             <th>Nama Pelanggan</th>
-            <th>No. Hp</th>
+            <th>No Hp</th>
             <th>Alamat</th>
+
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
-      <?php $no = 1; ?>
+    <?php $no = 1; ?>
       <?php
         if(isset($_GET['cari'])) {
           $pencarian = $_GET['cari'];
-          $query = "SELECT * FROM pelanggan where nama_pelanggan like '%".$pencarian."%'
+          $query = "SELECT * FROM pelanggan where nama like '%".$pencarian."%'
           or no_hp like '%".$pencarian."%' ORDER BY no_hp ";
         }
         else {
@@ -97,48 +100,24 @@ if (isset($_POST['tambah'])) {
 
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
+
             <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor Nota Jual</label>
-              <input type="number" class="form-control" name="no_notajual" id="no_notajual">
+              <label for="nama" class="form-label">Nama Pelanggan</label>
+              <input type="text" class="form-control" name="nama" id="nama">
             </div>
 
             <div class="mb-3">
-              <label for="nohp" class="form-label">ID Pegawai</label>
-              <input type="text" class="form-control" name="id_pelanggan" id="id_pelanggan" 
-              value="<?= $_SESSION['id_pelanggan']; ?>" disabled>
-            </div>
-
-
-
-            <div class="mb-3">
-              <label for="id_pegawai" class="form-label">ID Pegawai</label>
-              <input type="number" class="form-control" name="id_pegawai" id="id_pegawai">
+              <label for="no_hp" class="form-label">No HP</label>
+              <input type="number" class="form-control" name="no_hp" id="no_hp">
             </div>
 
             <div class="mb-3">
-              <label for="nama" class="form-label">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang" id="nama_barang">
-            </div>
-          
-            <div class="mb-3">
-              <label for="tickets" class="form-label">Jumlah Barang</Title></label>
-              <input type="number" class="form-control" name="jmlh_barang" id="jmlh_barang">
+              <label for="alamat" class="form-label">Alamat</label>
+              <input type="text" class="form-control" name="alamat" id="alamat">
             </div>
 
-            <div class="mb-3">
-              <label for="price" class="form-label">Tanggal Transaksi</label>
-              <input type="date" class="form-control" name="tgl_transaksi" id="tgl_transaksi">
-            </div>
 
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Total</label>
-              <input type="number" class="form-control" name="total" id="total">
-            </div>
 
-            <div class="mb-3">
-              <label for="nohp" class="form-label">Nomor HP</label>
-              <input type="text" class="form-control" name="no_hp" id="no_hp">
-            </div>
 
           </div>
 
@@ -151,6 +130,8 @@ if (isset($_POST['tambah'])) {
         </div>
       </div>
     </div>
+
+<style>
 
 
 <style>

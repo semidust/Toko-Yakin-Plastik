@@ -24,7 +24,7 @@ include 'head.php'
                     <li><a class="btn btn-outline-light" href="./pegawai.php">Pegawai</a></li>
                     <li><a class="btn btn-outline-light" href="./pelanggan.php">Pelanggan</a></li>
                     <li><a class="btn btn-outline-light" href="./barang.php">Barang</a></li>
-                    <li><a class="btn btn-outline-light" href="">Pemasukan</a></li>
+                    <li><a class="btn btn-outline-light" href="pemasukan.php">Pemasukan</a></li>
                     <li><a class="btn btn-outline-light" href="./penjualan.php">Penjualan</a></li>
                     <li><a class="btn btn-danger" href="aksi_logout.php">Logout</a></li>
                 </ul>
