@@ -1,13 +1,13 @@
 <?php
 
-$title = 'Transaksi Barang';
+$title = 'Supplier';
 include 'layout/navbar.php';
 include 'config/function.php';
 
 
 ?>
 
-<h2 class="judul">Data Transaksi Barang</h2>
+<h2 class="judul">Data Supplier</h2>
 <br>
 <br>
 
@@ -21,162 +21,93 @@ include 'config/function.php';
 </form>
 <br><br>
 
-  <div class="row"; style="width: 50%">
-      <div class="col">
-        <form method="post" class="form-inline">
-        <input type="date" name="tgl_mulai" class="form-control">
-      </div>
 
-      <div class="col">
-        <input type="date" name="tgl_selesai" class="form-control">
-      </div>
-
-      <div class="col">
-        <button type="submit" name="filter_tgl" class="btn btn-info">Filter</button>
-        </form>
-      </div>
-  </div>
 
   <br><br>
 
   <?php
     if(isset($_GET['cari'])) {
       $pencarian = $_GET['cari'];
-      if(isset($_POST['filter_tgl'])) {
-        $mulai = $_POST['tgl_mulai'];
-        $selesai = $_POST['tgl_selesai'];
-
-        if($mulai!=null || $selesai!=null) {
-          $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
-          AND (nama_pelanggan LIKE '%".$pencarian."%' OR deskripsi LIKE '%".$pencarian."%')
-          AND (tgl_transaksi BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
-          ORDER BY id_transaksi";
-        }
-        else {
-          $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
-          AND (nama_pelanggan LIKE '%".$pencarian."%' OR deskripsi LIKE '%".$pencarian."%')
-          ORDER BY id_transaksi";
-        }
-      }
-
-      else {
-        $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
-        AND (nama_pelanggan LIKE '%".$pencarian."%' OR deskripsi LIKE '%".$pencarian."%')
-        ORDER BY id_transaksi";
-      }
+      $query = "SELECT * FROM supplier where id_supplier like '%".$pencarian."%'
+      or nama_supplier like '%".$pencarian."%'  or alamat like '%".$pencarian."%'
+      or no_hp like '%".$pencarian."%' ORDER BY id_supplier ";
     }
-
     else {
-      if(isset($_POST['filter_tgl'])) {
-        $mulai = $_POST['tgl_mulai'];
-        $selesai = $_POST['tgl_selesai'];
-
-        if($mulai!=null || $selesai!=null) {
-          $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
-          AND (tgl_transaksi BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
-          ORDER BY id_transaksi";
-        }
-        else {
-          $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan 
-          ORDER BY id_transaksi";
-        }
-      }
-
-      else {
-        $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan 
-        ORDER BY id_transaksi";
-      }
+      $query = "SELECT * FROM supplier";
     }
-      $transaksi = mysqli_query($koneksi, $query);
+
+      $supplier = mysqli_query($koneksi, $query);
   ?>
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
         <tr>
             <th>No.</th>
-            <th>Tanggal Transaksi</th>
-            <th>Deskripsi Barang</th>
-            <th>Total</th>
-            <th>Pelanggan</th>
+            <th>ID Supplier</th>
+            <th>Nama Supplier</th>
+            <th>Alamat</th>
+            <th>No. Handphone</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
       <?php 
         $no = 1;
-        $totaljual = 0;
       ?>
-      <?php while($data = mysqli_fetch_array($transaksi)) {
-        $id_transaksi = $data['id_transaksi'];
-        $pelanggan = $data['nama_pelanggan'];
-        $deskripsi = $data['deskripsi'];
-        $total = $data['total'];
-        $tanggal = $data['tgl_transaksi'];
-        $totaljual += $total;
+      <?php while($data = mysqli_fetch_array($supplier)) {
+        $id_supplier = $data['id_supplier'];
+        $nama_supplier = $data['nama_supplier'];
+        $alamat = $data['alamat'];
+        $no_hp = $data['no_hp'];
       ?>
             <tr>
                 <td><?php echo $no++;?>.</td>
-                <td><?php echo date('d-m-Y', strtotime($tanggal));?></td>
-                <td><?php echo $deskripsi;?></td>
-                <td>Rp<?php echo $total;?></td>
-                <td><?php echo $pelanggan;?></td>
+                <td><?php echo $id_supplier;?></td>
+                <td><?php echo $nama_supplier;?></td>
+                <td><?php echo $alamat;?></td>
+                <td><?php echo $no_hp;?></td>
                 <td>
-                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_transaksi; ?>">Edit</a>
-                  <input type="hidden" name="idedit_transaksi" id="idedit_transaksi" value="<?= $id_transaksi; ?>">
-                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_transaksi?>">Delete</a>
-                  <input type="hidden" name="idhapus_transaksi" id="idhapus_transaksi" value="<?= $id_transaksi; ?>">
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_supplier; ?>">Edit</a>
+                  <input type="hidden" name="idedit_supplier" id="idedit_supplier" value="<?= $id_supplier; ?>">
+                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_supplier?>">Delete</a>
+                  <input type="hidden" name="id_shapus" id="id_shapus" value="<?= $id_supplier; ?>">
                 </td>
             </tr>
 
               <!--Edit Data-->
-              <div class="modal fade" id="edit<?= $id_transaksi; ?>">
+              <div class="modal fade" id="edit<?= $id_supplier; ?>">
                 <div class="modal-dialog">
                   <div class="modal-content">
 
                     <div class="modal-header">
-                      <h4 class="modal-title">Edit Transaksi</h4>
+                      <h4 class="modal-title">Edit Supplier</h4>
                       <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <form class="p-3 bg-body rounded" method="post" action="">
                     <div class="modal-body">
+
                       <div class="mb-3">
-                        <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
-                        <input type="date" class="form-control" name="tgl_tedit" value="<?= $tanggal; ?>" required>
+                        <label for="nama_supplier" class="form-label">Nama</label>
+                        <input class="form-control" name="nama_supplier_edit" required>
                       </div>
 
                       <div class="mb-3">
-                        <label for="deskripsi" class="form-label">Deskripsi Barang</label>
-                        <textarea class="form-control" name="deskripsi_edit" rows="3" required><?= $deskripsi; ?></textarea>
+                        <label for="alamat" class="form-label">Alamat</label>
+                        <input class="form-control" name="alamat_edit" rows="3" required>
                       </div>
 
                       <div class="mb-3">
-                        <label for="total" class="form-label">Total</label>
-                        <input type="number" class="form-control" name="total_tedit" value="<?= $total ?>" required>
-                      </div>
+                        <label for="no_hp" class="form-label">No. Handphone</label>
+                        <input class="form-control" name="deskripsi_edit" required>
+                      </div><br>
 
-                      <div class="mb-3">
-                        <label for="pelanggan" class="form-label">Pelanggan</label>
-                        <select name="pelanggan_tedit" class="form-control" required>
-                        <?php 
-                        $pilihan = mysqli_query($koneksi, "SELECT * FROM pelanggan"); 
-                        while ($fetcharray = mysqli_fetch_array($pilihan)) {
-                          $nama_pelanggan = $fetcharray['nama_pelanggan'];
-                          $id_pelanggan = $fetcharray['id_pelanggan'];
-                          ?>
-                          <option value="<?= $id_pelanggan ?>">
-                            <?= $nama_pelanggan ?>
-                          </option>
-                        <?php
-                        }
-                        ?>
-                        </select>
-                      </div>
-                    </div>
+
+    
 
                     <div class="modal-footer" >
                       <input type="hidden" name="id_tedit" id="id_tedit" value="<?= $id_transaksi; ?>">
-                      <button type="submit" name="edittransaksi" class="btn btn-primary">Edit</button>
+                      <button type="submit" name="editsupplier" class="btn btn-primary">Edit</button>
                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
                     </form>
@@ -196,7 +127,7 @@ include 'config/function.php';
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus supplier <?= $nama_pelanggan;?> - <?=$no_hp;?>?</p>
+                      <p>Apakah yakin ingin menghapus supplier <?= $nama_supplier;?> - <?=$id_supplier;?>?</p>
                     </div>
 
                     <form method="post">
@@ -231,49 +162,35 @@ include 'config/function.php';
         <div class="modal-content">
 
           <div class="modal-header">
-            <h4 class="modal-title">Tambah Transaksi</h4>
+            <h4 class="modal-title">Tambah Supplier</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
+
             <div class="mb-3">
-              <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
-              <input type="date" class="form-control" name="tgl_transaksi" required>
+              <label for="id_supplier" class="form-label">ID Supplier</label>
+              <input type=number class="form-control" name="id_supplier" required>
             </div>
 
             <div class="mb-3">
-              <label for="deskripsi" class="form-label">Deskripsi Barang</label>
-              <textarea class="form-control" name="deskripsi" rows="3" required></textarea>
+              <label for="nama_supplier" class="form-label">Nama</label>
+              <input class="form-control" name="nama_supplier" required>
             </div>
 
             <div class="mb-3">
-              <label for="total" class="form-label">Total</label>
-              <input type="number" class="form-control" name="totalt" required>
+              <label for="alamat" class="form-label">Alamat</label>
+              <input class="form-control" name="alamat" rows="3" required>
             </div>
 
             <div class="mb-3">
-              <label for="pelanggant" class="form-label">Pelanggan</label>
-              <select name="pelanggant" class="form-control" required>
-              <option selected value="">::Pilih Pelanggan::</option>
-              <?php 
-              $pilihan = mysqli_query($koneksi, "SELECT * FROM pelanggan"); 
-              while ($fetcharray = mysqli_fetch_array($pilihan)) {
-                $nama_pelanggan = $fetcharray['nama_pelanggan'];
-                $id_pelanggan = $fetcharray['id_pelanggan'];
-                ?>
-                <option value="<?= $id_pelanggan ?>">
-                  <?= $nama_pelanggan ?>
-                </option>
-              <?php
-              }
-              ?>
-              </select>
-            </div>
-          </div>
+              <label for="no_hp" class="form-label">No. Handphone</label>
+              <input type= number class="form-control" name="no_hp" required>
+            </div><br>
 
           <div class="modal-footer" >
-            <button type="submit" name="addtransaksi" class="btn btn-primary">Add</button>
+            <button type="submit" name="addsupplier" class="btn btn-primary">Add</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
           </div>
           </form>

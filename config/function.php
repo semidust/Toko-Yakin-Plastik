@@ -215,5 +215,72 @@ if (isset($_POST['edittransaksi'])) {
              </script>";
 	}
 }
+
+
+//crud supplier
+if (isset($_POST['addsupplier'])) {
+    $id_supplier = $_POST['id_supplier'];
+	$nama_supplier = $_POST['nama_supplier'];
+	$alamat = $_POST['alamat'];
+    $no_hp = $_POST['no_hp'];
+
+	$addsupplier = mysqli_query($koneksi, "INSERT INTO supplier (id_supplier, nama_supplier, alamat, no_hp) VALUES ('$id_supplier', '$nama_supplier', '$alamat', '$no_hp')");
+
+	if ($addsupplier) {
+		echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = 'supplier.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal ditambahkan!');
+              document.location.href = 'supplier.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['deletesupplier'])) {
+	$id_shapus = $_POST['id_shapus'];
+	$queryshapus = mysqli_query($koneksi, "DELETE FROM supplier WHERE id_supplier = '$id_shapus'");
+
+	if ($queryshapus) {
+		echo "<script>
+              alert('Data berhasil dihapus!');
+              document.location.href = 'supplier.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal dihapus!');
+              document.location.href = 'supplier.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['edittransaksi'])) {
+	$id_tedit = $_POST['id_tedit'];
+    $tanggal = $_POST['tgl_tedit'];
+	$deskripsi = $_POST['deskripsi_edit'];
+	$total = $_POST['total_tedit'];
+    $pelanggan = $_POST['pelanggan_tedit'];
+	$querytedit = mysqli_query($koneksi, "UPDATE transaksi SET id_pelanggan = '$pelanggan', deskripsi = '$deskripsi', 
+    total = '$total', tgl_transaksi = '$tanggal' WHERE id_transaksi = '$id_tedit'");
+
+	if ($querytedit) {
+		echo "<script>
+              alert('Data berhasil diubah!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal diubah!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	}
+}
+
+
 ?>
 

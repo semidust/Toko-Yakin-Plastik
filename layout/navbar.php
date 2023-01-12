@@ -21,6 +21,7 @@ include 'head.php'
             <nav class="mx-auto">                
                 <ul>
                     <li><a class="btn btn-outline-light" href="index.php">Home</a></li>
+                    <li><a class="btn btn-outline-light" href="./supplier.php">Supplier</a></li>
                     <li><a class="btn btn-outline-light" href="./pelanggan.php">Pelanggan</a></li>
                     <li><a class="btn btn-outline-light" href="./barang.php">Barang</a></li>
                     <li><a class="btn btn-outline-light" href="masuk.php">Masuk</a></li>
