@@ -156,7 +156,7 @@ include 'config/function.php';
 
                       <div class="mb-3">
                         <label for="barang_medit" class="form-label">Barang</label>
-                        <select name="barang_medit" class="form-control" required>
+                        <select name="barang_masukedit" class="form-control" disabled>
                         <?php 
                         $pilihanbarang = mysqli_query($koneksi, "SELECT * FROM barang"); 
                         while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
@@ -170,6 +170,7 @@ include 'config/function.php';
                         }
                         ?>
                         </select>
+                        <input type="hidden" name="barang_medit" class="form-control" value="<?= $idbarang?>">
                       </div>
 
                       <div class="mb-3">
@@ -223,7 +224,7 @@ include 'config/function.php';
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus <?= $barang;?>(<?=$jumlah?>) - <?=$supplier;?>?</p>
+                      <p>Apakah yakin ingin menghapus <?= $barang;?> (<?=$jumlah?>) - <?=$supplier;?>?</p>
                     </div>
 
                     <form method="post">
