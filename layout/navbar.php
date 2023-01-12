@@ -22,10 +22,10 @@ include 'head.php'
                 <ul>
                     <li><a class="btn btn-outline-light" href="index.php">Home</a></li>
                     <li><a class="btn btn-outline-light" href="./pegawai.php">Pegawai</a></li>
-                    <li><a class="btn btn-outline-light" href="./pelanggan.php">Pelanggan</a></li>
                     <li><a class="btn btn-outline-light" href="./barang.php">Barang</a></li>
-                    <li><a class="btn btn-outline-light" href="pemasukan.php">Pemasukan</a></li>
-                    <li><a class="btn btn-outline-light" href="./penjualan.php">Penjualan</a></li>
+                    <li><a class="btn btn-outline-light" href="masuk.php">Masuk</a></li>
+                    <li><a class="btn btn-outline-light" href="./keluar.php">Keluar</a></li>
+                    <li><a class="btn btn-outline-light" href="./transaksi.php">Transaksi</a></li>
                     <li><a class="btn btn-danger" href="aksi_logout.php">Logout</a></li>
                 </ul>
             </nav>

@@ -18,68 +18,6 @@ function select($query)
     return $rows;
 }
 
-
-//fungsi menghapus data penjualan
-function delete_datajual($no_notajual)
-{
-    global $koneksi;
-
-    //query hapus data 
-    $query = "DELETE FROM penjualan WHERE no_notajual = $no_notajual";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
-}
-
-//fungsi menambah data penjualan
-function create_datajual($post)
-{
-    global $koneksi;
-
-    $no_notajual = $post['no_notajual'];
-    $id_pegawai = $_SESSION['id_pegawai'];
-    $id_barang = $post['id_barang'];
-    $nama_barang = $post['nama_barang'];
-    $jmlh_barang = $post['jmlh_barang'];
-    $tgl_transaksi = $post['tgl_transaksi'];
-    $total = $post['total'];
-    $no_hp = $post['no_hp'];
-
-    //query tambah data
-    $query = "INSERT INTO penjualan (no_notajual, id_pegawai, id_barang, nama_barang, jmlh_barang,
-    tgl_transaksi, total, no_hp) VALUES('$no_notajual', '$id_pegawai', '$id_barang', '$nama_barang', '$jmlh_barang', '$tgl_transaksi',  
-    '$total', '$no_hp')";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
-}   
-
-//fungsi edit data penjualan
-function edit_datajual($post)
-{
-    global $koneksi;
-
-    $no_notajual = $post['id_edit'];
-    $id_pegawai = $post['id_pegawai(edit)'];
-    $id_barang = $post['id_barang(edit)'];
-    $nama_barang = $post['nama_barang(edit)'];
-    $jmlh_barang = $post['jmlh_barang'];
-    $tgl_transaksi = $post['tgl_transaksi'];
-    $total = $post['total'];
-    $no_hp = $post['no_hp(edit)'];
-
-    //query ubah data
-    $query = "UPDATE penjualan SET no_notajual = '$no_notajual', id_pegawai = '$id_pegawai', id_barang = '$id_barang',
-    nama_barang = '$nama_barang', jmlh_barang = '$jmlh_barang', tgl_transaksi = '$tgl_transaksi', total = '$total', 
-    no_hp = '$no_hp' WHERE no_notajual = $no_notajual";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
-}
-
 //fungsi menambah data pelanggan
 function create_datapelanggan($post)
 {
@@ -110,126 +48,172 @@ function delete_datapelanggan($no_hp)
     return mysqli_affected_rows($koneksi);
 }
 
-//fungsi menghapus data pegawai
-function delete_datapegawai($id_pegawai)
-{
-    global $koneksi;
+//crud masuk
+if (isset($_POST['addmasuk'])) {
+	$tanggal = $_POST['tgl_bmasuk'];
+    $barang = $_POST['barangmasuk'];
+    $qty = $_POST['jmlh_barangm'];
+    $total = $_POST['total_barangm'];
+	$supplier = $_POST['supplierm'];
 
-    //query hapus data 
-    $query = "DELETE FROM pegawai WHERE id_pegawai = $id_pegawai";
+	$cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
+	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
 
-    mysqli_query($koneksi, $query);
+	$stoksekarang = $ambildatabarang['stok'];
+	$tambahqty = $stoksekarang + $qty;
 
-    return mysqli_affected_rows($koneksi);
+    $addmasuk = mysqli_query($koneksi, "INSERT INTO masuk (id_barang, tgl_bmasuk, jmlh_barang, total, id_supplier)
+    VALUES ('$barang', '$tanggal', '$qty', '$total', '$supplier')");
+	$updatestokmasuk = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
+
+	if ($addmasuk && $updatestokmasuk) {
+		echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = 'masuk.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal ditambahkan!');
+              document.location.href = 'masuk.php';
+             </script>";
+	}
 }
 
-//fungsi menambah data pegawai
-function create_datapegawai($post)
-{
-    global $koneksi;
+if (isset($_POST['editmasuk'])) {
+	$tanggal = $_POST['tgl_medit'];
+    $idmasuk = $_POST['id_medit'];
+    $barang = $_POST['barang_medit'];
+    $qty = $_POST['jmlh_medit'];
+    $total = $_POST['total_medit'];
+	$supplier = $_POST['supplier_medit'];
 
-    $id_pegawai = $post['id_pegawai'];
-    $nama_pegawai = $post['nama_pegawai'];
-    $password_pegawai = $post['password_pegawai'];
+	$cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
+    $cekstokmasuk = mysqli_query($koneksi, "SELECT * FROM masuk WHERE id_barang ='$barang'");
+	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
+    $ambildatamasuk = mysqli_fetch_array($cekstokmasuk);
 
-    //query tambah data
-    $query = "INSERT INTO pegawai (id_pegawai, nama_pegawai, password_pegawai) VALUES('$id_pegawai', '$nama_pegawai', '$password_pegawai')";
+	$stoksekarang = $ambildatabarang['stok'];
+    $stokmasuk = $ambildatamasuk['jmlh_barang'];
 
-    mysqli_query($koneksi, $query);
+    if ($qty>$stokmasuk) {
+        $selisih = $qty - $stokmasuk;
+        $tambahqty = $stoksekarang + $selisih;
+    }
+    else {
+        $selisih = $stokmasuk - $qty;
+        $tambahqty = $stoksekarang - $selisih;
+    }
+    
+	
+	$editmasuk = mysqli_query($koneksi, "UPDATE masuk SET tgl_bmasuk = '$tanggal', jmlh_barang = '$qty', 
+    total = '$total' , id_supplier = '$supplier' WHERE id_masuk = $idmasuk");
+	$updatestokmasuk = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
 
-    return mysqli_affected_rows($koneksi);
-}   
-
-//fungsi menambah data pemasukan
-function create_datamasuk($post)
-{
-    global $koneksi;
-
-    $id_pegawai = $_SESSION['id_pegawai'];
-    $id_barang = $post['id_barang'];
-    $nama_barang = $post['nama_barang'];
-    $no_notamasuk = $post['no_notabeli'];
-    $tgl_transaksi = $post['tgl_transaksi'];
-    $jmlh_barang = $post['jmlh_barang'];
-    $total = $post['total'];
-
-    //query tambah data
-    $query = "INSERT INTO pemasukan_barang ( id_pegawai, id_barang, nama_barang,no_notabeli,     tgl_transaksi,jmlh_barang,
-     total) VALUES( '$id_pegawai', '$id_barang', '$nama_barang','$no_notamasuk', '$tgl_transaksi',  '$jmlh_barang',
-    '$total')";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
-}  
-
-//fungsi menghapus data pemasukan
-function delete_datamasuk($no_notabeli)
-{
-    global $koneksi;
-
-    //query hapus data 
-    $query = "DELETE FROM pemasukan_barang WHERE no_notabeli = $no_notabeli";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
+	if ($editmasuk && $updatestokmasuk) {
+		echo "<script>
+              alert('Data berhasil diubah!');
+              document.location.href = 'masuk.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal diubah!');
+              document.location.href = 'masuk.php';
+             </script>";
+	}
 }
 
-//edit data pemasukan
+if (isset($_POST['deletemasuk'])) {
+	$barang = $_POST['barang_mhapus'];
+    $idmasuk = $_POST['id_mhapus'];
+    $qty = $_POST['jumlah_mhapus'];
+    
+    $cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
+	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
 
-function edit_datamasuk($post)
-{
-    global $koneksi;
+	$stoksekarang = $ambildatabarang['stok'];
+    $tambahqty = $stoksekarang - $qty;
 
-    $id_pegawai = $post['id_pegawai'];
-    $id_barang = $post['id_barang'];
-    $nama_barang = $post['nama_barang'];
-    $no_notamasuk = $post['no_notabeli'];
-    $tgl_transaksi = $post['tgl_transaksi'];
-    $jmlh_barang = $post['jmlh_barang'];
-    $total = $post['total'];
+    $updatestokmasuk = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
+    $querymhapus = mysqli_query($koneksi, "DELETE FROM masuk WHERE id_masuk = '$idmasuk'");
 
-    //query ubah data
-    $query = "UPDATE pemasukan_barang SET  id_pegawai = '$id_pegawai', id_barang = '$id_barang',
-    nama_barang = '$nama_barang', no_notabeli = '$no_notamasuk', tgl_transaksi = '$tgl_transaksi', jmlh_barang = '$jmlh_barang',  total = '$total', 
-    WHERE no_notabeli = $no_notamasuk";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
+	if ($updatestokmasuk && $querymhapus) {
+		echo "<script>
+              alert('Data berhasil dihapus!');
+              document.location.href = 'masuk.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal dihapus!');
+              document.location.href = 'masuk.php';
+             </script>";
+	}
 }
 
-//fungsi menambah data barang
-function create_databarang($post)
-{
-    global $koneksi;
+//crud transaksi
+if (isset($_POST['addtransaksi'])) {
+    $tanggal = $_POST['tgl_transaksi'];
+	$deskripsi = $_POST['deskripsi'];
+	$total = $_POST['totalt'];
+    $pelanggan = $_POST['pelanggant'];
 
-    $id_barang = $post['id_barang'];
-    $nama_barang = $post['nama_barang'];
-    $modal = $post['modal'];
-    $harga = $post['harga'];
-    $stok = $post['stok'];
+	$addtransaksi = mysqli_query($koneksi, "INSERT INTO transaksi (id_pelanggan, deskripsi, total, tgl_transaksi) VALUES ('$pelanggan', '$deskripsi', '$total', '$tanggal')");
 
-    //query tambah data
-    $query = "INSERT INTO barang (id_barang, nama_barang, modal,harga,stok) VALUES('$id_barang', '$nama_barang', '$modal','$harga','$stok')";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
+	if ($addtransaksi) {
+		echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal ditambahkan!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	}
 }
 
-//fungsi menghapus data pelanggan
-function delete_databarang($id_barang)
-{
-    global $koneksi;
+if (isset($_POST['deletetransaksi'])) {
+	$id_thapus = $_POST['id_thapus'];
+	$querythapus = mysqli_query($koneksi, "DELETE FROM transaksi WHERE id_transaksi = '$id_thapus'");
 
-    //query hapus data 
-    $query = "DELETE FROM barang WHERE id_barang = $id_barang";
-
-    mysqli_query($koneksi, $query);
-
-    return mysqli_affected_rows($koneksi);
+	if ($querythapus) {
+		echo "<script>
+              alert('Data berhasil dihapus!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal dihapus!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	}
 }
 
+if (isset($_POST['edittransaksi'])) {
+	$id_tedit = $_POST['id_tedit'];
+    $tanggal = $_POST['tgl_tedit'];
+	$deskripsi = $_POST['deskripsi_edit'];
+	$total = $_POST['total_tedit'];
+    $pelanggan = $_POST['pelanggan_tedit'];
+	$querytedit = mysqli_query($koneksi, "UPDATE transaksi SET id_pelanggan = '$pelanggan', deskripsi = '$deskripsi', 
+    total = '$total', tgl_transaksi = '$tanggal' WHERE id_transaksi = '$id_tedit'");
+
+	if ($querytedit) {
+		echo "<script>
+              alert('Data berhasil diubah!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal diubah!');
+              document.location.href = 'transaksi.php';
+             </script>";
+	}
+}
 ?>
+

@@ -44,7 +44,6 @@ if (isset($_POST['tambah'])) {
     <thead>
         <tr>
             <th>No.</th>
-            <th>ID Produk</th>
             <th>Nama Barang</th>
             <th>Harga Beli</th>
             <th>Harga Jual</th>
@@ -74,7 +73,6 @@ if (isset($_POST['tambah'])) {
       <?php foreach($data_barang as $barang) : ?>
             <tr>
                 <td><?php echo $no++;?></td>
-                <td><?php echo $barang['id_barang'];?></td>
                 <td><?php echo $barang['nama_barang'];?></td>
                 <td><?php echo $barang['modal'];?></td>
                 <td><?php echo $barang['harga'];?></td>
