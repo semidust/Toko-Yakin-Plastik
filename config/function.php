@@ -281,6 +281,67 @@ if (isset($_POST['editsupplier'])) {
 	}
 }
 
+//Crud Pelanggan
+if (isset($_POST['addpelanggan'])) {
+    $id_pelanggan= $_POST['id_pelanggan'];
+	$nama_pelanggan = $_POST['nama_pelanggan'];
+	$no_hp = $_POST['no_hp'];
 
+
+	$addpelanggan = mysqli_query($koneksi, "INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, no_hp) VALUES ('$id_pelanggan', '$nama_pelanggan', '$no_hp')");
+
+	if ($addpelanggan) {
+		echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = 'pelanggan.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal ditambahkan!');
+              document.location.href = 'pelanggan.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['deletepelanggan'])) {
+	$id_phapus = $_POST['id_phapus'];
+	$hapus = mysqli_query($koneksi, "DELETE FROM pelanggan WHERE id_pelanggan = '$id_phapus'");
+
+	if ($hapus) {
+		echo "<script>
+              alert('Data berhasil dihapus!');
+              document.location.href = 'pelanggan.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal dihapus!');
+              document.location.href = 'pelanggan.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['editpelanggan'])) {
+	$id_pedit = $_POST['id_pedit'];
+    $nama_pelanggan_edit = $_POST['nama_pelanggan_edit'];
+	$no_hp_edit = $_POST['no_hp_edit'];
+
+	$querypedit = mysqli_query($koneksi, "UPDATE pelanggan SET id_pelanggan = '$id_pedit', nama_pelanggan = '$nama_pelanggan_edit', 
+    no_hp = '$no_hp_edit' WHERE id_pelanggan = '$id_pedit'");
+
+	if ($querypedit) {
+		echo "<script>
+              alert('Data berhasil diubah!');
+              document.location.href = 'pelanggan.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal diubah!');
+              document.location.href = 'pelanggan.php';
+             </script>";
+	}
+}
 ?>
 

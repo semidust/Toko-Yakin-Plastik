@@ -1,93 +1,182 @@
-<!-- <?php
+<?php
 
-$title = 'Data Barang';
+$title = 'Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_barang = select("SELECT * FROM barang");
 
-//cek apakah tombol add ditekan
-if (isset($_POST['tambah'])) {
-  if (create_databarang($_POST) > 0) {
-    echo "<script>
-            alert('Data berhasil ditambahkan!');
-            document.location.href = 'barang.php';
-           </script>";
-  }
-
-  else {
-    echo "<script>
-            alert('Data gagal ditambahkan!');
-            document.location.href = 'barang.php';
-           </script>";
-  }
-}
 
 ?>
 
-<h2 class="judul">Data Barang</h2>
+<h2 class="judul">Data Transaksi Barang</h2>
 <br>
 <br>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <form method="GET" action="" class="search">
   <input type="text" name="cari" value="<?php if(isset($_GET['cari'])){ echo $_GET['cari']; }?>" placeholder="Search here ...">
   <i class="fa fa-search"></i>
 </form>
-
-
 <br><br>
+
+<?php
+    if(isset($_GET['cari'])) {
+      $pencarian = $_GET['cari'];
+      $query = "SELECT * FROM barang where id_barang like '%".$pencarian."%'
+      or nama_barang like '%".$pencarian."%'  or modal like '%".$pencarian."%'
+      or harga like '%".$pencarian."%' or stok like '%".$pencarian."%' ORDER BY id_barang ";
+    }
+    else {
+      $query = "SELECT * FROM barang";
+    }
+
+      $barang = mysqli_query($koneksi, $query);
+  ?>
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
         <tr>
             <th>No.</th>
+            <th>ID Barang</th>
             <th>Nama Barang</th>
-            <th>Harga Beli</th>
-            <th>Harga Jual</th>
+            <th>Modal</th>
+            <th>Harga</th>
             <th>Stok</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
-      <?php $no = 1; ?>
-      <?php
-        if(isset($_GET['cari'])) {
-          $pencarian = $_GET['cari'];
-          $query = "SELECT * FROM barang where nama_barang like '%".$pencarian."%'
-          or id_barang like '%".$pencarian."%' ORDER BY id_barang ";
-        }
-        else {
-          $query = "SELECT * FROM barang";
-        }
-
-        $data_barang = select($query);
+      <?php 
+        $no = 1;
       ?>
-          <center>
+      <?php while($data = mysqli_fetch_array($barang)) {
+        $id_barang = $data['id_barang'];
+        $nama_barang = $data['nama_barang'];
+        $modal = $data['modal'];
+        $harga = $data['harga'];
+        $stok = $data['stok'];
+      ?>
+            <tr>
+                <td><?php echo $no++;?>.</td>
+                <td><?php echo $id_barang;?></td>
+                <td><?php echo $nama_barang;?></td>
+                <td><?php echo $modal;?></td>
+                <td><?php echo $harga;?></td>
+                <td><?php echo $stok;?></td>
+                <td>
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_supplier; ?>">Edit</a>
+                  <input type="hidden" name="idedit_supplier" id="idedit_supplier" value="<?= $id_supplier; ?>">
+                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_supplier?>">Delete</a>
+                  <input type="hidden" name="idhapus_supplier" id="idhapus_supplier" value="<?= $id_supplier; ?>">
+                </td>
+            </tr>
+
+            
+
+
+
+
+
+  
+<!--Edit Data-->
+              <div class="modal fade" id="edit<?= $id_transaksi; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Edit Transaksi</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form class="p-3 bg-body rounded" method="post" action="">
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
+                        <input type="date" class="form-control" name="tgl_tedit" value="<?= $tanggal; ?>" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="deskripsi" class="form-label">Deskripsi Barang</label>
+                        <textarea class="form-control" name="deskripsi_edit" rows="3" required><?= $deskripsi; ?></textarea>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="total" class="form-label">Total</label>
+                        <input type="number" class="form-control" name="total_tedit" value="<?= $total ?>" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="pelanggan" class="form-label">Pelanggan</label>
+                        <select name="pelanggan_tedit" class="form-control" required>
+                        <?php 
+                        $pilihan = mysqli_query($koneksi, "SELECT * FROM pelanggan"); 
+                        while ($fetcharray = mysqli_fetch_array($pilihan)) {
+                          $nama_pelanggan = $fetcharray['nama_pelanggan'];
+                          $id_pelanggan = $fetcharray['id_pelanggan'];
+                          ?>
+                          <option value="<?= $id_pelanggan ?>">
+                            <?= $nama_pelanggan ?>
+                          </option>
+                        <?php
+                        }
+                        ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer" >
+                      <input type="hidden" name="id_tedit" id="id_tedit" value="<?= $id_transaksi; ?>">
+                      <button type="submit" name="edittransaksi" class="btn btn-primary">Edit</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+              <!--Delete Data-->
+              <div class="modal fade" id="delete<?= $id_supplier; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Hapus Supplier</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <p>Apakah yakin ingin menghapus supplier <?= $nama_pelanggan;?> - <?=$no_hp;?>?</p>
+                    </div>
+
+                    <form method="post">
+                    <div class="modal-footer">
+                      <input type="hidden" name="id_shapus" id="id_shapus" value="<?= $id_supplier; ?>">
+                      <button type="submit" class="btn btn-primary" name="deletesupplier">Delete</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+    <?php
+      };
+    ?>
+    </tbody>
+
+</table>
+    
+
+    <center>
     <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
     <a class="btn btn-secondary" href="index.php">Back</a> 
     </center>
     <br><br><br><br>
-      <?php foreach($data_barang as $barang) : ?>
-            <tr>
-                <td><?php echo $no++;?></td>
-                <td><?php echo $barang['nama_barang'];?></td>
-                <td><?php echo $barang['modal'];?></td>
-                <td><?php echo $barang['harga'];?></td>
-                <td><?php echo $barang['stok'];?></td>
-                <td>
-                  <a class="btn btn-primary" href="barang_edit.php?id_barang=<?= $barang['id_barang']?>">Edit</a>
-                  <a class="btn btn-secondary" href="barang_hapus.php?id_barang=<?= $barang['id_barang']?>" 
-                  onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
-                </td>
-            </tr>
-      <?php endforeach; ?>
-    </tbody>
-</table>
-
-
 
     <!--Add Data-->
     <div class="modal fade" id="add">
@@ -95,42 +184,49 @@ if (isset($_POST['tambah'])) {
         <div class="modal-content">
 
           <div class="modal-header">
-            <h4 class="modal-title">Tambah Data</h4>
+            <h4 class="modal-title">Tambah Barang</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
-
             <div class="mb-3">
-              <label for="id_barang" class="form-label">ID Barang</label>
-              <input type="number" class="form-control" name="id_barang" id="id_barang">
+              <label for="tgl_transaksi" class="form-label">Tanggal Transaksi</label>
+              <input type="date" class="form-control" name="tgl_transaksi" required>
             </div>
 
             <div class="mb-3">
-              <label for="nama_barang" class="form-label">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang" id="nama_barang">
-            </div>
-          
-            <div class="mb-3">
-              <label for="modal" class="form-label">Modal</Title></label>
-              <input type="number" class="form-control" name="modal" id="modal">
+              <label for="deskripsi" class="form-label">Deskripsi Barang</label>
+              <textarea class="form-control" name="deskripsi" rows="3" required></textarea>
             </div>
 
             <div class="mb-3">
-              <label for="harga" class="form-label">Harga_Jual</label>
-              <input type="number" class="form-control" name="harga" id="harga">
+              <label for="total" class="form-label">Total</label>
+              <input type="number" class="form-control" name="totalt" required>
             </div>
 
             <div class="mb-3">
-              <label for="stok" class="form-label">Stok</Title></label>
-              <input type="number" class="form-control" name="stok" id="stok">
+              <label for="pelanggant" class="form-label">Pelanggan</label>
+              <select name="pelanggant" class="form-control" required>
+              <option selected value="">::Pilih Pelanggan::</option>
+              <?php 
+              $pilihan = mysqli_query($koneksi, "SELECT * FROM pelanggan"); 
+              while ($fetcharray = mysqli_fetch_array($pilihan)) {
+                $nama_pelanggan = $fetcharray['nama_pelanggan'];
+                $id_pelanggan = $fetcharray['id_pelanggan'];
+                ?>
+                <option value="<?= $id_pelanggan ?>">
+                  <?= $nama_pelanggan ?>
+                </option>
+              <?php
+              }
+              ?>
+              </select>
             </div>
-
           </div>
 
           <div class="modal-footer" >
-            <button type="submit" name="tambah" id="tambah" class="btn btn-primary">Add</button>
+            <button type="submit" name="addtransaksi" class="btn btn-primary">Add</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
@@ -141,8 +237,7 @@ if (isset($_POST['tambah'])) {
 
 
     <style>
-
-.search{
+  .search{
     position: relative;
     top: 50%;
     left: 50%;
@@ -217,6 +312,14 @@ if (isset($_POST['tambah'])) {
     line-height: 3.3rem;
   }
 
+  .container p {
+    color:white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 3.3rem;
+  }
+
 
   a {
       color: white;
@@ -231,7 +334,7 @@ if (isset($_POST['tambah'])) {
     overflow: hidden;
     max-width: 1500px;
 
-    width: 70%;
+    width: 97%;
     margin: 0 auto;
     position: relative;
     text-align: center;
@@ -285,4 +388,4 @@ if (isset($_POST['tambah'])) {
 <script src="script.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   </body>
-</html> -->
+</html>

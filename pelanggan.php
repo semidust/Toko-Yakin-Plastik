@@ -3,42 +3,7 @@
 $title = 'Data Pelanggan';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_pelanggan = select("SELECT * FROM pelanggan");
-// $data_pelanggan = select("SELECT * FROM pelanggan");
 
-//cek apakah tombol add ditekan
-if (isset($_POST['tambah'])) {
-  if (create_datapelanggan($_POST) > 0) {
-    echo "<script>
-            alert('Data berhasil ditambahkan!');
-            document.location.href = 'pelanggan.php';
-           </script>";
-  }
-
-  else {
-    echo "<script>
-            alert('Data gagal ditambahkan!');
-            document.location.href = 'pelanggan.php';
-           </script>";
-  }
-}
-
-//cek apakah tombol edit ditekan
-if (isset($_POST['edit'])) {
-  if (edit_datapelanggan($_POST) > 0) {
-    echo "<script>
-            alert('Data berhasil diubah!');
-            document.location.href = 'pelanggan.php';
-           </script>";
-  }
-
-  else {
-    echo "<script>
-            alert('Data gagal diubah!');
-            document.location.href = 'pelanggan.php';
-           </script>";
-  }
-}
 
 ?>
 
@@ -54,57 +19,134 @@ if (isset($_POST['edit'])) {
   <input type="text" name="cari" value="<?php if(isset($_GET['cari'])){ echo $_GET['cari']; }?>" placeholder="Search here ...">
   <i class="fa fa-search"></i>
 </form>
-
-
 <br><br>
+
+<?php
+    if(isset($_GET['cari'])) {
+      $pencarian = $_GET['cari'];
+      $query = "SELECT * FROM pelanggan where id_pelanggan like '%".$pencarian."%'
+      or nama_pelanggan like '%".$pencarian."%' or no_hp like '%".$pencarian."%' ORDER BY id_pelanggan ";
+    }
+    else {
+      $query = "SELECT * FROM pelanggan";
+    }
+
+    $pelangganku = mysqli_query($koneksi, $query);
+  ?>
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
         <tr>
             <th>No.</th>
+            <th> ID Pelanggan</th>
             <th>Nama Pelanggan</th>
-            <th>No Hp</th>
-            <th>Alamat</th>
-
+            <th>No. Handphone</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
-    <?php $no = 1; ?>
-      <?php
-        if(isset($_GET['cari'])) {
-          $pencarian = $_GET['cari'];
-          $query = "SELECT * FROM pelanggan where nama like '%".$pencarian."%'
-          or no_hp like '%".$pencarian."%' ORDER BY no_hp ";
-        }
-        else {
-          $query = "SELECT * FROM pelanggan";
-        }
 
-        $data_pelanggan = select($query);
+      <?php 
+        $no = 1;
       ?>
-      <?php foreach($data_pelanggan as $pelanggan) : ?>
+<!--Tampil-->
+
+      <?php while($data = mysqli_fetch_array($pelangganku)) {
+        $id_pelanggan = $data['id_pelanggan'];
+        $nama_pelanggan = $data['nama_pelanggan'];
+        $no_hp = $data['no_hp'];
+      ?>
             <tr>
-                <td><?php echo $no++;?></td>
-                <td><?php echo $pelanggan['nama'];?></td>
-                <td><?php echo $pelanggan['no_hp'];?></td>
-                <td><?php echo $pelanggan['alamat'];?></td>
+                <td><?php echo $no++;?>.</td>
+                <td><?php echo $id_pelanggan;?></td>
+                <td><?php echo $nama_pelanggan;?></td>
+                <td><?php echo $no_hp;?></td>
                 <td>
-                  <a class="btn btn-primary" href="pelanggan_edit.php?no_hp=<?= $pelanggan['no_hp']?>">Edit</a>
-                  <a class="btn btn-secondary" href="pelanggan_hapus.php?no_hp=<?= $pelanggan['no_hp']?>" 
-                  onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_pelanggan; ?>">Edit</a>
+                  <input type="hidden" name="idedit_transaksi" id="idedit_transaksi" value="<?= $id_pelanggan; ?>">
+                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_pelanggan?>">Delete</a>
+                  <input type="hidden" name="idhapus_pelanggan" id="idhapus_pelanggan" value="<?= $id_pelanggan; ?>">
                 </td>
             </tr>
-      <?php endforeach; ?>
+
+
+
+              <!--Edit Data-->
+
+<div class="modal fade" id="edit<?= $id_pelanggan; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Edit Pelanggan</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form class="p-3 bg-body rounded" method="post" action="">
+                    <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="nama_pelangaan" class="form-label">Nama Pelanggan</label>
+                        <input class="form-control" name="nama_pelanggan_edit" value="<?= $nama_pelanggan; ?>" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="no_hp" class="form-label">No. Handphone</label>
+                        <input class="form-control" name="no_hp_edit" value="<?= $no_hp; ?>" required>
+                      </div><br>
+
+                    </div>
+
+                    <div class="modal-footer" >
+                      <input type="hidden" name="id_pedit" id="id_pedit" value="<?= $id_pelanggan; ?>">
+                      <button type="submit" name="editpelanggan" class="btn btn-primary">Edit</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+
+              <!--Delete Data-->
+              <div class="modal fade" id="delete<?= $id_pelanggan; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Hapus Pelanggan</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <p>Apakah yakin ingin menghapus data <?= $nama_pelanggan;?> - <?=$no_hp;?>?</p>
+                    </div>
+
+                    <form method="post">
+                    <div class="modal-footer">
+                      <input type="hidden" name="id_phapus" id="id_phapus" value="<?= $id_pelanggan; ?>">
+                      <button type="submit" class="btn btn-primary" name="deletepelanggan">Delete</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+              
+    <?php
+      };
+    ?>
     </tbody>
+
 </table>
+    
 
     <center>
     <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
     <a class="btn btn-secondary" href="index.php">Back</a> 
     </center>
     <br><br><br><br>
-    
 
     <!--Add Data-->
     <div class="modal fade" id="add">
@@ -112,7 +154,7 @@ if (isset($_POST['edit'])) {
         <div class="modal-content">
 
           <div class="modal-header">
-            <h4 class="modal-title">Tambah Data</h4>
+            <h4 class="modal-title">Tambah Data Pelanggan</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
@@ -120,27 +162,23 @@ if (isset($_POST['edit'])) {
           <div class="modal-body">
 
             <div class="mb-3">
-              <label for="nama" class="form-label">Nama Pelanggan</label>
-              <input type="text" class="form-control" name="nama" id="nama">
+              <label for="id_pelanggan" class="form-label">ID Pelanggan</label>
+              <input type="text" class="form-control" name="id_pelanggan" required>
             </div>
 
             <div class="mb-3">
-              <label for="no_hp" class="form-label">No HP</label>
-              <input type="number" class="form-control" name="no_hp" id="no_hp">
+              <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
+              <input type="text" class="form-control" name="nama_pelanggan" required>
             </div>
 
             <div class="mb-3">
-              <label for="alamat" class="form-label">Alamat</label>
-              <input type="text" class="form-control" name="alamat" id="alamat">
+              <label for="no_hp" class="form-label">No. Handphone</label>
+              <input type="text" class="form-control" name="no_hp" required>
             </div>
-
-
-
 
           </div>
-
           <div class="modal-footer" >
-            <button type="submit" name="tambah" id="tambah" class="btn btn-primary">Add</button>
+            <button type="submit" name="addpelanggan" class="btn btn-primary">Add</button>
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
           </div>
           </form>
@@ -149,12 +187,9 @@ if (isset($_POST['edit'])) {
       </div>
     </div>
 
-<style>
-
 
 <style>
-
-.search{
+  .search{
     position: relative;
     top: 50%;
     left: 50%;
@@ -229,6 +264,14 @@ if (isset($_POST['edit'])) {
     line-height: 3.3rem;
   }
 
+  .container p {
+    color:white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 3.3rem;
+  }
+
 
   a {
       color: white;
@@ -243,7 +286,7 @@ if (isset($_POST['edit'])) {
     overflow: hidden;
     max-width: 1500px;
 
-    width: 70%;
+    width: 97%;
     margin: 0 auto;
     position: relative;
     text-align: center;
