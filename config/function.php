@@ -461,5 +461,73 @@ if (isset($_POST['editpelanggan'])) {
              </script>";
 	}
 }
+
+//Crud Barang
+if (isset($_POST['addbarang'])) {
+    $id_barang= $_POST['id_barang'];
+    $nama_barang= $_POST['nama_barang'];
+    $modal= $_POST['modal'];
+    $harga = $_POST['harga'];
+    $stok = $_POST['stok'];
+
+	$addbarang= mysqli_query($koneksi, "INSERT INTO barang (id_barang, nama_barang, modal,harga,stok) VALUES ('$id_barang', '$nama_barang', '$modal','$harga','$stok')");
+
+	if ($addbarang) {
+		echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = 'barang.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal ditambahkan!');
+              document.location.href = 'barang.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['deletebarang'])) {
+	$id_phapus = $_POST['id_phapus'];
+	$hapus = mysqli_query($koneksi, "DELETE FROM barang WHERE id_barang = '$id_bhapus'");
+
+	if ($hapus) {
+		echo "<script>
+              alert('Data berhasil dihapus!');
+              document.location.href = 'barang.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal dihapus!');
+              document.location.href = 'barang.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['editbarang'])) {
+	$id_bedit = $_POST['id_bedit'];
+    $nama_barang_edit = $_POST['nama_barang_edit'];
+    $modal_edit = $_POST['modal_edit'];
+    $harga_edit = $_POST['harga_edit'];
+    $stok_edit = $_POST['stok_edit'];
+
+
+	$querybedit = mysqli_query($koneksi, "UPDATE barang SET id_barang = '$id_bedit', nama_barang= '$nama_barang_edit', 
+    modal = '$modal_edit', harga ='$harga_edit', stok = '$stok_edit' WHERE id_barang = '$id_bedit'");
+
+	if ($querybedit) {
+		echo "<script>
+              alert('Data berhasil diubah!');
+              document.location.href = 'barang.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal diubah!');
+              document.location.href = 'barang.php';
+             </script>";
+	}
+}
+
 ?>
 

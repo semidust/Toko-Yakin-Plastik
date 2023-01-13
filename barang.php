@@ -1,13 +1,10 @@
 <?php
-
-$title = 'Barang';
+$title = 'Data Pelanggan';
 include 'layout/navbar.php';
 include 'config/function.php';
-
-
 ?>
 
-<h2 class="judul">Data Barang</h2>
+<h2 class="judul">Data Pelanggan</h2>
 <br>
 <br>
 
@@ -25,55 +22,189 @@ include 'config/function.php';
     if(isset($_GET['cari'])) {
       $pencarian = $_GET['cari'];
       $query = "SELECT * FROM barang where id_barang like '%".$pencarian."%'
-      or nama_barang like '%".$pencarian."%'  or modal like '%".$pencarian."%'
-      or harga like '%".$pencarian."%' or stok like '%".$pencarian."%' ORDER BY id_barang ";
+      or nama_barang like '%".$pencarian."%' or modal like '%".$pencarian."%' 
+      or harga like '%".$pencarian."%'or stok like '%".$pencarian."%' ORDER BY id_pelanggan ";
     }
     else {
       $query = "SELECT * FROM barang";
     }
 
-      $barang = mysqli_query($koneksi, $query);
+    $barangku = mysqli_query($koneksi, $query);
   ?>
-
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
         <tr>
             <th>No.</th>
-            <th>ID Barang</th>
             <th>Nama Barang</th>
             <th>Modal</th>
-            <th>No.H</th>
+            <th>harga</th>
+            <th>stok</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
+
       <?php 
         $no = 1;
       ?>
-      <?php while($data = mysqli_fetch_array($barang)) {
-        $id_barang = $data['id_barang'];
+
+<!--Tampil-->
+
+      <?php while($data = mysqli_fetch_array($barangku)) {
         $nama_barang = $data['nama_barang'];
-        $alamat = $data['alamat'];
-        $no_hp = $data['no_hp'];
+        $modal = $data['modal'];
+        $harga = $data['harga'];
+        $stok = $data['stok'];
       ?>
             <tr>
                 <td><?php echo $no++;?>.</td>
-                <td><?php echo $id_supplier;?></td>
-                <td><?php echo $nama_supplier;?></td>
-                <td><?php echo $alamat;?></td>
-                <td><?php echo $no_hp;?></td>
+                <td><?php echo $nama_barang;?></td>
+                <td><?php echo $modal;?></td>
+                <td><?php echo $harga;?></td>
+                <td><?php echo $stok;?></td>
                 <td>
-                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_supplier; ?>">Edit</a>
-                  <input type="hidden" name="idedit_supplier" id="idedit_supplier" value="<?= $id_supplier; ?>">
-                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_supplier?>">Delete</a>
-                  <input type="hidden" name="idhapus_supplier" id="idhapus_supplier" value="<?= $id_supplier; ?>">
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_barang; ?>">Edit</a>
+                  <input type="hidden" name="idedit_transaksi" id="idedit_transaksi" value="<?= $id_barang; ?>">
+                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_barang?>">Delete</a>
+                  <input type="hidden" name="idhapus_pelanggan" id="idhapus_pelanggan" value="<?= $id_barang; ?>">
                 </td>
             </tr>
 
-            <?php
+
+
+              <!--Edit Data-->
+
+              <div class="modal fade" id="edit<?= $id_barang; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Edit Barang</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form class="p-3 bg-body rounded" method="post" action="">
+                    <div class="modal-body">
+
+                      <div class="mb-3">
+                        <label for="nama_barang" class="form-label">Nama Barang</label>
+                        <input class="form-control" name="nama_barang_edit" value="<?= $nama_barang; ?>" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="modal" class="form-label">Modal</label>
+                        <input type="number" class="form-control" name="modal_edit" value="<?= $modal; ?>" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="harga" class="form-label">Harga</label>
+                        <input type="number" class="form-control" name="harga_edit" value="<?= $harga; ?>" required>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="stok" class="form-label">Stok</label>
+                        <input type ="number" class="form-control" name="stok_edit" value="<?= $stok; ?>" required>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer" >
+                      <input type="hidden" name="id_bedit" id="id_bedit" value="<?= $id_barang; ?>">
+                      <button type="submit" name="editbarang" class="btn btn-primary">Edit</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+
+              <!--Delete Data-->
+              <div class="modal fade" id="delete<?= $id_barang; ?>">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Hapus Pelanggan</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <p>Apakah yakin ingin menghapus transaksi <?= $id_barang;?> - <?=$nama_barang;?></p>
+                    </div>
+
+                    <form method="post">
+                    <div class="modal-footer">
+                      <input type="hidden" name="id_bhapus" id="id_bhapus" value="<?= $id_pelanggan; ?>">
+                      <button type="submit" class="btn btn-primary" name="deletebarang">Delete</button>
+                      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+              
+    <?php
       };
     ?>
+    </tbody>
+
+</table>
+    
+
+    <center>
+    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
+    <a class="btn btn-secondary" href="index.php">Back</a> 
+    </center>
+    <br><br><br><br>
+
+
+    <!--Add Data-->
+    <div class="modal fade" id="add">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">Data Barang</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <form class="p-3 bg-body rounded" method="post" action="">
+          <div class="modal-body">
+
+
+            <div class="mb-3">
+              <label for="nama_barang" class="form-label">Nama Barang</label>
+              <input type="text" class="form-control" name="nama_barang" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="modal" class="form-label">Modal</label>
+              <input type="number" class="form-control" name="modal" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="harga" class="form-label">Harga</label>
+              <input type="number" class="form-control" name="harga" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="stok" class="form-label">Stok</label>
+              <input type="number" class="form-control" name="stok" required>
+            </div>
+
+
+          </div>
+          <div class="modal-footer" >
+            <button type="submit" name="addbarang" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
 
 
 <style>

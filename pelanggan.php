@@ -38,7 +38,6 @@ include 'config/function.php';
     <thead>
         <tr>
             <th>No.</th>
-            <th> ID Pelanggan</th>
             <th>Nama Pelanggan</th>
             <th>No. Handphone</th>
             <th>Edit | Delete</th>
@@ -58,7 +57,6 @@ include 'config/function.php';
       ?>
             <tr>
                 <td><?php echo $no++;?>.</td>
-                <td><?php echo $id_pelanggan;?></td>
                 <td><?php echo $nama_pelanggan;?></td>
                 <td><?php echo $no_hp;?></td>
                 <td>
@@ -160,11 +158,6 @@ include 'config/function.php';
 
           <form class="p-3 bg-body rounded" method="post" action="">
           <div class="modal-body">
-
-            <div class="mb-3">
-              <label for="id_pelanggan" class="form-label">ID Pelanggan</label>
-              <input type="text" class="form-control" name="id_pelanggan" required>
-            </div>
 
             <div class="mb-3">
               <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
@@ -284,7 +277,7 @@ include 'config/function.php';
     background: white;
     border-radius: 6px;
     overflow: hidden;
-    max-width: 1500px;
+    max-width: 1000px;
 
     width: 97%;
     margin: 0 auto;

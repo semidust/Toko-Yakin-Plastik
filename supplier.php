@@ -99,7 +99,7 @@ include 'config/function.php';
 
                       <div class="mb-3">
                         <label for="no_hp" class="form-label">No. Handphone</label>
-                        <input class="form-control" name="no_hp_edit" value="<?= $no_hp; ?>" required>
+                        <input class="form-control" name="no_hp_edit" value="<?= $nama_supplier; ?>" required>
                       </div><br>
 
                     </div>
