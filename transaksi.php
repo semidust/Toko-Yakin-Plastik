@@ -185,7 +185,7 @@ include 'config/function.php';
               </div>
 
               <!--Delete Data-->
-              <div class="modal fade" id="delete<?= $id_supplier; ?>">
+              <div class="modal fade" id="delete<?= $id_transaksi; ?>">
                 <div class="modal-dialog">
                   <div class="modal-content">
 
