@@ -124,7 +124,7 @@ include 'config/function.php';
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus supplier <?= $nama_supplier;?> - <?=$id_supplier;?>?</p>
+                      <p>Apakah yakin ingin menghapus supplier <?= $nama_supplier;?>?</p>
                     </div>
 
                     <form method="post">
