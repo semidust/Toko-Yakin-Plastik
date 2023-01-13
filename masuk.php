@@ -20,7 +20,7 @@ include 'config/function.php';
 </form>
 <br><br>
 
-  <div class="row" style="width: 50%; margin-left: 10pt">
+<div class="row" style="width: 50%; margin-left: 300pt">
       <div class="col">
         <form method="post" class="form-inline">
         <input type="date" name="tgl_mulai" class="form-control">
@@ -417,7 +417,7 @@ include 'config/function.php';
     background: white;
     border-radius: 6px;
     overflow: hidden;
-    max-width: 1500px;
+    max-width: 1000px;
 
     width: 97%;
     margin: 0 auto;

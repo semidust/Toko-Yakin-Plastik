@@ -24,8 +24,8 @@ include 'config/function.php';
 <?php
     if(isset($_GET['cari'])) {
       $pencarian = $_GET['cari'];
-      $query = "SELECT * FROM pelanggan where id_pelanggan like '%".$pencarian."%'
-      or nama_pelanggan like '%".$pencarian."%' or no_hp like '%".$pencarian."%' ORDER BY id_pelanggan ";
+      $query = "SELECT * FROM pelanggan where nama_pelanggan like '%".$pencarian."%' 
+      or no_hp like '%".$pencarian."%' ORDER BY id_pelanggan ";
     }
     else {
       $query = "SELECT * FROM pelanggan";

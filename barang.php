@@ -303,7 +303,7 @@ include 'config/function.php';
     background: white;
     border-radius: 6px;
     overflow: hidden;
-    max-width: 1500px;
+    max-width: 1000px;
 
     width: 97%;
     margin: 0 auto;

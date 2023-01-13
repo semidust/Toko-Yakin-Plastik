@@ -22,14 +22,11 @@ include 'config/function.php';
 <br><br>
 
 
-
-  <br><br>
-
   <?php
     if(isset($_GET['cari'])) {
       $pencarian = $_GET['cari'];
-      $query = "SELECT * FROM supplier where id_supplier like '%".$pencarian."%'
-      or nama_supplier like '%".$pencarian."%'  or alamat like '%".$pencarian."%'
+      $query = "SELECT * FROM supplier where nama_supplier like '%".$pencarian."%'  
+      or alamat like '%".$pencarian."%'
       or no_hp like '%".$pencarian."%' ORDER BY id_supplier ";
     }
     else {
