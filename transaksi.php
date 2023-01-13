@@ -201,7 +201,7 @@ include 'config/function.php';
                     <form method="post">
                     <div class="modal-footer">
                       <input type="hidden" name="id_thapus" id="id_thapus" value="<?= $id_transaksi; ?>">
-                      <button type="submit" class="btn btn-primary" name="deletesupplier">Delete</button>
+                      <button type="submit" class="btn btn-primary" name="deletetransaksi">Delete</button>
                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
                     </form>
