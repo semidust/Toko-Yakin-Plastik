@@ -94,7 +94,7 @@ include 'config/function.php';
 
                       <div class="mb-3">
                         <label for="no_hp" class="form-label">No. Handphone</label>
-                        <input class="form-control" name="no_hp_edit" value="<?= $nama_supplier; ?>" required>
+                        <input class="form-control" name="no_hp_edit" value="<?= $no_hp; ?>" required>
                       </div><br>
 
                     </div>
@@ -289,7 +289,7 @@ include 'config/function.php';
     background: white;
     border-radius: 6px;
     overflow: hidden;
-    max-width: 1000px;
+    max-width: 1500px;
 
     width: 97%;
     margin: 0 auto;

@@ -37,8 +37,8 @@ include 'config/function.php';
             <th>No.</th>
             <th>Nama Barang</th>
             <th>Modal</th>
-            <th>harga</th>
-            <th>stok</th>
+            <th>Harga Jual</th>
+            <th>Stok</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
