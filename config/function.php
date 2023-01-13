@@ -53,13 +53,14 @@ if (isset($_POST['addmasuk'])) {
 	$tanggal = $_POST['tgl_bmasuk'];
     $barang = $_POST['barangmasuk'];
     $qty = $_POST['jmlh_barangm'];
-    $total = $_POST['total_barangm'];
 	$supplier = $_POST['supplierm'];
 
 	$cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
 	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
 
 	$stoksekarang = $ambildatabarang['stok'];
+    $harga = $ambildatabarang['modal'];
+    $total = $qty * $harga;
 	$tambahqty = $stoksekarang + $qty;
 
     $addmasuk = mysqli_query($koneksi, "INSERT INTO masuk (id_barang, tgl_bmasuk, jmlh_barang, total, id_supplier)
@@ -85,15 +86,18 @@ if (isset($_POST['editmasuk'])) {
     $idmasuk = $_POST['id_medit'];
     $barang = $_POST['barang_medit'];
     $qty = $_POST['jmlh_medit'];
-    $total = $_POST['total_medit'];
+
 	$supplier = $_POST['supplier_medit'];
 
 	$cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
     $cekstokmasuk = mysqli_query($koneksi, "SELECT * FROM masuk WHERE id_barang ='$barang'");
 	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
+    
     $ambildatamasuk = mysqli_fetch_array($cekstokmasuk);
 
 	$stoksekarang = $ambildatabarang['stok'];
+    $harga = $ambildatabarang['modal'];
+    $total = $qty * $harga;
     $stokmasuk = $ambildatamasuk['jmlh_barang'];
 
     if ($qty>$stokmasuk) {
@@ -152,6 +156,118 @@ if (isset($_POST['deletemasuk'])) {
 	}
 }
 
+//crud keluar
+if (isset($_POST['addkeluar'])) {
+	$idtransaksi = $_POST['transaksi'];
+    $barang = $_POST['barangkeluar'];
+    $qty = $_POST['jmlh_barangk'];
+
+	$cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
+    $cektransaksi = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi ='$idtransaksi'");
+	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
+    $ambildatatransaksi = mysqli_fetch_array($cektransaksi);
+
+    $tanggal = $ambildatatransaksi['tgl_transaksi'];
+
+	$stoksekarang = $ambildatabarang['stok'];
+    $harga = $ambildatabarang['harga'];
+    $total = $qty * $harga;
+	$tambahqty = $stoksekarang - $qty;
+
+    $addkeluar = mysqli_query($koneksi, "INSERT INTO keluar (id_barang, id_transaksi, tgl_bkeluar, jmlh_barang, total)
+    VALUES ('$barang', '$idtransaksi', '$tanggal', '$qty', '$total')");
+	$updatestokkeluar = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
+
+	if ($addkeluar && $updatestokkeluar) {
+		echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = 'keluar.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal ditambahkan!');
+              document.location.href = 'keluar.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['editkeluar'])) {
+    $idkeluar = $_POST['id_kedit'];
+    $barang = $_POST['barang_kedit'];
+    $qty = $_POST['jmlh_kedit'];
+    $idtransaksi = $_POST['transaksi_kedit'];
+
+	$cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
+    $cektransaksi = mysqli_query($koneksi, "SELECT * FROM transaksi WHERE id_transaksi ='$idtransaksi'");
+    $cekstokkeluar = mysqli_query($koneksi, "SELECT * FROM keluar WHERE id_barang ='$barang'");
+	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
+    $ambildatatransaksi = mysqli_fetch_array($cektransaksi);
+    $ambildatakeluar = mysqli_fetch_array($cekstokkeluar);
+
+    $tanggal = $ambildatatransaksi['tgl_transaksi'];
+	$stoksekarang = $ambildatabarang['stok'];
+    $harga = $ambildatabarang['harga'];
+    $stokkeluar = $ambildatakeluar['jmlh_barang'];
+
+    $total = $qty * $harga;
+
+    if ($qty>$stokkeluar) {
+        $selisih = $qty - $stokkeluar;
+        $tambahqty = $stoksekarang - $selisih;
+    }
+    else {
+        $selisih = $stokkeluar - $qty;
+        $tambahqty = $stoksekarang + $selisih;
+    }
+    
+	
+	$editkeluar = mysqli_query($koneksi, "UPDATE keluar SET id_transaksi = '$idtransaksi', tgl_bkeluar = '$tanggal', jmlh_barang = '$qty', 
+    total = '$total'  WHERE id_keluar = $idkeluar");
+	$updatestokkeluar = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
+
+	if ($editkeluar && $updatestokkeluar) {
+		echo "<script>
+              alert('Data berhasil diubah!');
+              document.location.href = 'keluar.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal diubah!');
+              document.location.href = 'keluar.php';
+             </script>";
+	}
+}
+
+if (isset($_POST['deletekeluar'])) {
+	$barang = $_POST['barang_khapus'];
+    $idkeluar = $_POST['id_khapus'];
+    $qty = $_POST['jumlah_khapus'];
+    
+    $cekstokbarang = mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang ='$barang'");
+	$ambildatabarang = mysqli_fetch_array($cekstokbarang);
+
+	$stoksekarang = $ambildatabarang['stok'];
+    $tambahqty = $stoksekarang + $qty;
+
+    $updatestokkeluar = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
+    $querykhapus = mysqli_query($koneksi, "DELETE FROM keluar WHERE id_keluar = '$idkeluar'");
+
+	if ($updatestokkeluar && $querykhapus) {
+		echo "<script>
+              alert('Data berhasil dihapus!');
+              document.location.href = 'keluar.php';
+             </script>";
+	} 
+    else {
+		echo "<script>
+              alert('Data gagal dihapus!');
+              document.location.href = 'keluar.php';
+             </script>";
+	}
+}
+
 //crud transaksi
 if (isset($_POST['addtransaksi'])) {
     $tanggal = $_POST['tgl_transaksi'];
@@ -159,7 +275,7 @@ if (isset($_POST['addtransaksi'])) {
 	$total = $_POST['totalt'];
     $pelanggan = $_POST['pelanggant'];
 
-	$addtransaksi = mysqli_query($koneksi, "INSERT INTO transaksi (id_pelanggan, deskripsi, total, tgl_transaksi) VALUES ('$pelanggan', '$deskripsi', '$total', '$tanggal')");
+	$addtransaksi = mysqli_query($koneksi, "INSERT INTO transaksi (id_pelanggan, deskripsi, total_transaksi, tgl_transaksi) VALUES ('$pelanggan', '$deskripsi', '$total', '$tanggal')");
 
 	if ($addtransaksi) {
 		echo "<script>
@@ -199,8 +315,10 @@ if (isset($_POST['edittransaksi'])) {
 	$deskripsi = $_POST['deskripsi_edit'];
 	$total = $_POST['total_tedit'];
     $pelanggan = $_POST['pelanggan_tedit'];
+
+    $updatestokkeluar = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
 	$querytedit = mysqli_query($koneksi, "UPDATE transaksi SET id_pelanggan = '$pelanggan', deskripsi = '$deskripsi', 
-    total = '$total', tgl_transaksi = '$tanggal' WHERE id_transaksi = '$id_tedit'");
+    total_transaksi = '$total', tgl_transaksi = '$tanggal' WHERE id_transaksi = '$id_tedit'");
 
 	if ($querytedit) {
 		echo "<script>
