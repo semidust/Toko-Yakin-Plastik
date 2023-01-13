@@ -130,7 +130,7 @@ include 'config/function.php';
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus <?=$nama_barang;?>?</p>
+                      <p>Apakah yakin ingin menghapus data <?=$nama_barang;?>?</p>
                     </div>
 
                     <form method="post">

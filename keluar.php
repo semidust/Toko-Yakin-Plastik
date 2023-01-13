@@ -197,7 +197,7 @@ include 'config/function.php';
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus <?= $barang;?> (<?=$jumlah?>)</p>
+                      <p>Apakah yakin ingin menghapus data <?= $barang;?> (<?=$jumlah?>)?</p>
                     </div>
 
                     <form method="post">
