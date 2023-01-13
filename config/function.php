@@ -487,7 +487,7 @@ if (isset($_POST['addbarang'])) {
 }
 
 if (isset($_POST['deletebarang'])) {
-	$id_phapus = $_POST['id_phapus'];
+	$id_bhapus = $_POST['id_bhapus'];
 	$hapus = mysqli_query($koneksi, "DELETE FROM barang WHERE id_barang = '$id_bhapus'");
 
 	if ($hapus) {

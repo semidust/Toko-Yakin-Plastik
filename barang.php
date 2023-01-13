@@ -1,10 +1,10 @@
 <?php
-$title = 'Data Pelanggan';
+$title = 'Data Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
 ?>
 
-<h2 class="judul">Data Pelanggan</h2>
+<h2 class="judul">Data Barang</h2>
 <br>
 <br>
 
@@ -22,8 +22,7 @@ include 'config/function.php';
     if(isset($_GET['cari'])) {
       $pencarian = $_GET['cari'];
       $query = "SELECT * FROM barang where id_barang like '%".$pencarian."%'
-      or nama_barang like '%".$pencarian."%' or modal like '%".$pencarian."%' 
-      or harga like '%".$pencarian."%'or stok like '%".$pencarian."%' ORDER BY id_pelanggan ";
+      or nama_barang like '%".$pencarian."%' ORDER BY id_barang ";
     }
     else {
       $query = "SELECT * FROM barang";
@@ -52,6 +51,7 @@ include 'config/function.php';
 <!--Tampil-->
 
       <?php while($data = mysqli_fetch_array($barangku)) {
+        $id_barang = $data['id_barang'];
         $nama_barang = $data['nama_barang'];
         $modal = $data['modal'];
         $harga = $data['harga'];
@@ -65,9 +65,9 @@ include 'config/function.php';
                 <td><?php echo $stok;?></td>
                 <td>
                   <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_barang; ?>">Edit</a>
-                  <input type="hidden" name="idedit_transaksi" id="idedit_transaksi" value="<?= $id_barang; ?>">
+                  <input type="hidden" name="idedit_barang" id="idedit_barang" value="<?= $id_barang; ?>">
                   <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_barang?>">Delete</a>
-                  <input type="hidden" name="idhapus_pelanggan" id="idhapus_pelanggan" value="<?= $id_barang; ?>">
+                  <input type="hidden" name="idhapus_barang" id="idhapus_barang" value="<?= $id_barang; ?>">
                 </td>
             </tr>
 
@@ -117,7 +117,7 @@ include 'config/function.php';
 
                   </div>
                 </div>
-              </div>
+            </div>
 
               <!--Delete Data-->
               <div class="modal fade" id="delete<?= $id_barang; ?>">
@@ -125,17 +125,17 @@ include 'config/function.php';
                   <div class="modal-content">
 
                     <div class="modal-header">
-                      <h4 class="modal-title">Hapus Pelanggan</h4>
+                      <h4 class="modal-title">Hapus Barang</h4>
                       <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus transaksi <?= $id_barang;?> - <?=$nama_barang;?></p>
+                      <p>Apakah yakin ingin menghapus <?=$nama_barang;?>?</p>
                     </div>
 
                     <form method="post">
                     <div class="modal-footer">
-                      <input type="hidden" name="id_bhapus" id="id_bhapus" value="<?= $id_pelanggan; ?>">
+                      <input type="hidden" name="id_bhapus" id="id_bhapus" value="<?= $id_barang; ?>">
                       <button type="submit" class="btn btn-primary" name="deletebarang">Delete</button>
                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
