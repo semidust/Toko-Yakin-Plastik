@@ -406,7 +406,7 @@ if (isset($_POST['addpelanggan'])) {
 	$no_hp = $_POST['no_hp'];
 
 
-	$addpelanggan = mysqli_query($koneksi, "INSERT INTO pelanggan (id_pelanggan, nama_pelanggan, no_hp) VALUES ('$id_pelanggan', '$nama_pelanggan', '$no_hp')");
+	$addpelanggan = mysqli_query($koneksi, "INSERT INTO pelanggan (nama_pelanggan, no_hp) VALUES ('$id_pelanggan', '$nama_pelanggan', '$no_hp')");
 
 	if ($addpelanggan) {
 		echo "<script>
@@ -470,7 +470,7 @@ if (isset($_POST['addbarang'])) {
     $harga = $_POST['harga'];
     $stok = $_POST['stok'];
 
-	$addbarang= mysqli_query($koneksi, "INSERT INTO barang (id_barang, nama_barang, modal,harga,stok) VALUES ('$id_barang', '$nama_barang', '$modal','$harga','$stok')");
+	$addbarang= mysqli_query($koneksi, "INSERT INTO barang (nama_barang, modal,harga,stok) VALUES ('$id_barang', '$nama_barang', '$modal','$harga','$stok')");
 
 	if ($addbarang) {
 		echo "<script>
