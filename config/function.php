@@ -258,25 +258,25 @@ if (isset($_POST['deletesupplier'])) {
 	}
 }
 
-if (isset($_POST['edittransaksi'])) {
-	$id_tedit = $_POST['id_tedit'];
-    $tanggal = $_POST['tgl_tedit'];
-	$deskripsi = $_POST['deskripsi_edit'];
-	$total = $_POST['total_tedit'];
-    $pelanggan = $_POST['pelanggan_tedit'];
-	$querytedit = mysqli_query($koneksi, "UPDATE transaksi SET id_pelanggan = '$pelanggan', deskripsi = '$deskripsi', 
-    total = '$total', tgl_transaksi = '$tanggal' WHERE id_transaksi = '$id_tedit'");
+if (isset($_POST['editsupplier'])) {
+	$id_sedit = $_POST['id_sedit'];
+    $nama_supplier_edit = $_POST['nama_supplier_edit'];
+	$alamat_edit = $_POST['alamat_edit'];
+	$no_hp_edit = $_POST['no_hp_edit'];
 
-	if ($querytedit) {
+	$querysedit = mysqli_query($koneksi, "UPDATE supplier SET id_supplier = '$id_sedit', nama_supplier = '$nama_supplier_edit', 
+    alamat = '$alamat_edit', no_hp = '$no_hp_edit' WHERE id_supplier = '$id_sedit'");
+
+	if ($querysedit) {
 		echo "<script>
               alert('Data berhasil diubah!');
-              document.location.href = 'transaksi.php';
+              document.location.href = 'supplier.php';
              </script>";
 	} 
     else {
 		echo "<script>
               alert('Data gagal diubah!');
-              document.location.href = 'transaksi.php';
+              document.location.href = 'supplier.php';
              </script>";
 	}
 }

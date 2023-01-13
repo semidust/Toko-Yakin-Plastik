@@ -1,6 +1,6 @@
 <?php
 
-$title = 'Supplier';
+$title = 'Transaksi Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
 
@@ -70,10 +70,11 @@ include 'config/function.php';
                   <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_supplier; ?>">Edit</a>
                   <input type="hidden" name="idedit_supplier" id="idedit_supplier" value="<?= $id_supplier; ?>">
                   <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_supplier?>">Delete</a>
-                  <input type="hidden" name="id_shapus" id="id_shapus" value="<?= $id_supplier; ?>">
+                  <input type="hidden" name="idhapus_supplier" id="idhapus_supplier" value="<?= $id_supplier; ?>">
                 </td>
             </tr>
 
+            
               <!--Edit Data-->
               <div class="modal fade" id="edit<?= $id_supplier; ?>">
                 <div class="modal-dialog">
@@ -86,27 +87,25 @@ include 'config/function.php';
 
                     <form class="p-3 bg-body rounded" method="post" action="">
                     <div class="modal-body">
-
-                      <div class="mb-3">
-                        <label for="nama_supplier" class="form-label">Nama</label>
-                        <input class="form-control" name="nama_supplier_edit" required>
+                    <div class="mb-3">
+                        <label for="nama_supplier" class="form-label">Nama Supplier</label>
+                        <input class="form-control" name="nama_supplier_edit" value="<?= $nama_supplier; ?>" required>
                       </div>
 
                       <div class="mb-3">
                         <label for="alamat" class="form-label">Alamat</label>
-                        <input class="form-control" name="alamat_edit" rows="3" required>
+                        <input class="form-control" name="alamat_edit" value="<?= $alamat; ?>" required>
                       </div>
 
                       <div class="mb-3">
                         <label for="no_hp" class="form-label">No. Handphone</label>
-                        <input class="form-control" name="deskripsi_edit" required>
+                        <input class="form-control" name="no_hp_edit" value="<?= $no_hp; ?>" required>
                       </div><br>
 
-
-    
+                    </div>
 
                     <div class="modal-footer" >
-                      <input type="hidden" name="id_tedit" id="id_tedit" value="<?= $id_transaksi; ?>">
+                      <input type="hidden" name="id_sedit" id="id_sedit" value="<?= $id_supplier; ?>">
                       <button type="submit" name="editsupplier" class="btn btn-primary">Edit</button>
                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
@@ -156,8 +155,8 @@ include 'config/function.php';
     </center>
     <br><br><br><br>
 
-    <!--Add Data-->
-    <div class="modal fade" id="add">
+<!--Add Data-->
+<div class="modal fade" id="add">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -198,6 +197,8 @@ include 'config/function.php';
         </div>
       </div>
     </div>
+
+          
 
 
 <style>

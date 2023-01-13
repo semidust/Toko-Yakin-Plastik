@@ -1,26 +1,9 @@
 <?php
 
-$title = 'Data Barang';
+$title = 'Barang';
 include 'layout/navbar.php';
 include 'config/function.php';
-$data_barang = select("SELECT * FROM barang");
 
-//cek apakah tombol add ditekan
-if (isset($_POST['tambah'])) {
-  if (create_databarang($_POST) > 0) {
-    echo "<script>
-            alert('Data berhasil ditambahkan!');
-            document.location.href = 'barang.php';
-           </script>";
-  }
-
-  else {
-    echo "<script>
-            alert('Data gagal ditambahkan!');
-            document.location.href = 'barang.php';
-           </script>";
-  }
-}
 
 ?>
 
@@ -36,117 +19,65 @@ if (isset($_POST['tambah'])) {
   <input type="text" name="cari" value="<?php if(isset($_GET['cari'])){ echo $_GET['cari']; }?>" placeholder="Search here ...">
   <i class="fa fa-search"></i>
 </form>
-
-
 <br><br>
+
+<?php
+    if(isset($_GET['cari'])) {
+      $pencarian = $_GET['cari'];
+      $query = "SELECT * FROM barang where id_barang like '%".$pencarian."%'
+      or nama_barang like '%".$pencarian."%'  or modal like '%".$pencarian."%'
+      or harga like '%".$pencarian."%' or stok like '%".$pencarian."%' ORDER BY id_barang ";
+    }
+    else {
+      $query = "SELECT * FROM barang";
+    }
+
+      $barang = mysqli_query($koneksi, $query);
+  ?>
+
 
 <table class="shadow-lg p-3 mb-5 bg-body rounded">
     <thead>
         <tr>
             <th>No.</th>
+            <th>ID Barang</th>
             <th>Nama Barang</th>
-            <th>Harga Beli</th>
-            <th>Harga Jual</th>
-            <th>Stok</th>
+            <th>Modal</th>
+            <th>No.H</th>
             <th>Edit | Delete</th>
         </tr>
     </thead>
     <tbody>
-      <?php $no = 1; ?>
-      <?php
-        if(isset($_GET['cari'])) {
-          $pencarian = $_GET['cari'];
-          $query = "SELECT * FROM barang where nama_barang like '%".$pencarian."%'
-          or id_barang like '%".$pencarian."%' ORDER BY id_barang ";
-        }
-        else {
-          $query = "SELECT * FROM barang";
-        }
-
-        $data_barang = select($query);
+      <?php 
+        $no = 1;
       ?>
-          <center>
-    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add">Add</a>
-    <a class="btn btn-secondary" href="index.php">Back</a> 
-    </center>
-    <br><br><br><br>
-      <?php foreach($data_barang as $barang) : ?>
+      <?php while($data = mysqli_fetch_array($barang)) {
+        $id_barang = $data['id_barang'];
+        $nama_barang = $data['nama_barang'];
+        $alamat = $data['alamat'];
+        $no_hp = $data['no_hp'];
+      ?>
             <tr>
-                <td><?php echo $no++;?></td>
-                <td><?php echo $barang['nama_barang'];?></td>
-                <td><?php echo $barang['modal'];?></td>
-                <td><?php echo $barang['harga'];?></td>
-                <td><?php echo $barang['stok'];?></td>
+                <td><?php echo $no++;?>.</td>
+                <td><?php echo $id_supplier;?></td>
+                <td><?php echo $nama_supplier;?></td>
+                <td><?php echo $alamat;?></td>
+                <td><?php echo $no_hp;?></td>
                 <td>
-                  <a class="btn btn-primary" href="barang_edit.php?id_barang=<?= $barang['id_barang']?>">Edit</a>
-                  <a class="btn btn-secondary" href="barang_hapus.php?id_barang=<?= $barang['id_barang']?>" 
-                  onclick="return confirm('Apakah ingin menghapus data ini?');">Delete</a>
+                  <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?= $id_supplier; ?>">Edit</a>
+                  <input type="hidden" name="idedit_supplier" id="idedit_supplier" value="<?= $id_supplier; ?>">
+                  <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#delete<?= $id_supplier?>">Delete</a>
+                  <input type="hidden" name="idhapus_supplier" id="idhapus_supplier" value="<?= $id_supplier; ?>">
                 </td>
             </tr>
-      <?php endforeach; ?>
-    </tbody>
-</table>
+
+            <?php
+      };
+    ?>
 
 
-
-    <!--Add Data-->
-    <div class="modal fade" id="add">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <div class="modal-header">
-            <h4 class="modal-title">Tambah Data</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <form class="p-3 bg-body rounded" method="post" action="">
-          <div class="modal-body">
-
-
-            <div class="mb-3">
-              <label for="id_barang" class="form-label">ID Barang</label>
-              <input type="number" class="form-control" name="id_barang" id="id_barang">
-            </div>
-
-            <div class="mb-3">
-              <label for="nama_barang" class="form-label">Nama Barang</label>
-              <input type="text" class="form-control" name="nama_barang" id="nama_barang">
-            </div>
-          
-            <div class="mb-3">
-              <label for="modal" class="form-label">Modal</Title></label>
-              <input type="number" class="form-control" name="modal" id="modal">
-            </div>
-
-            <div class="mb-3">
-              <label for="harga" class="form-label">Harga_Jual</label>
-              <input type="number" class="form-control" name="harga" id="harga">
-            </div>
-
-            <div class="mb-3">
-              <label for="stok" class="form-label">Stok</Title></label>
-              <input type="number" class="form-control" name="stok" id="stok">
-            </div>
-
-
-
-
-          </div>
-
-          <div class="modal-footer" >
-            <button type="submit" name="tambah" id="tambah" class="btn btn-primary">Add</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-          </div>
-          </form>
-
-        </div>
-      </div>
-    </div>
-
-
-    <style>
-
-.search{
+<style>
+  .search{
     position: relative;
     top: 50%;
     left: 50%;
@@ -221,6 +152,14 @@ if (isset($_POST['tambah'])) {
     line-height: 3.3rem;
   }
 
+  .container p {
+    color:white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 3.3rem;
+  }
+
 
   a {
       color: white;
@@ -235,7 +174,7 @@ if (isset($_POST['tambah'])) {
     overflow: hidden;
     max-width: 1500px;
 
-    width: 70%;
+    width: 97%;
     margin: 0 auto;
     position: relative;
     text-align: center;
