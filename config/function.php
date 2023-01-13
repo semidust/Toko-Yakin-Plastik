@@ -401,12 +401,11 @@ if (isset($_POST['editsupplier'])) {
 
 //Crud Pelanggan
 if (isset($_POST['addpelanggan'])) {
-    $id_pelanggan= $_POST['id_pelanggan'];
 	$nama_pelanggan = $_POST['nama_pelanggan'];
 	$no_hp = $_POST['no_hp'];
 
 
-	$addpelanggan = mysqli_query($koneksi, "INSERT INTO pelanggan (nama_pelanggan, no_hp) VALUES ('$id_pelanggan', '$nama_pelanggan', '$no_hp')");
+	$addpelanggan = mysqli_query($koneksi, "INSERT INTO pelanggan (nama_pelanggan, no_hp) VALUES ('$nama_pelanggan', '$no_hp')");
 
 	if ($addpelanggan) {
 		echo "<script>
@@ -464,7 +463,6 @@ if (isset($_POST['editpelanggan'])) {
 
 //Crud Barang
 if (isset($_POST['addbarang'])) {
-    $id_barang= $_POST['id_barang'];
     $nama_barang= $_POST['nama_barang'];
     $modal= $_POST['modal'];
     $harga = $_POST['harga'];
