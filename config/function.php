@@ -337,12 +337,12 @@ if (isset($_POST['edittransaksi'])) {
 
 //crud supplier
 if (isset($_POST['addsupplier'])) {
-    $id_supplier = $_POST['id_supplier'];
+
 	$nama_supplier = $_POST['nama_supplier'];
 	$alamat = $_POST['alamat'];
     $no_hp = $_POST['no_hp'];
 
-	$addsupplier = mysqli_query($koneksi, "INSERT INTO supplier (id_supplier, nama_supplier, alamat, no_hp) VALUES ('$id_supplier', '$nama_supplier', '$alamat', '$no_hp')");
+	$addsupplier = mysqli_query($koneksi, "INSERT INTO supplier (nama_supplier, alamat, no_hp) VALUES ('$nama_supplier', '$alamat', '$no_hp')");
 
 	if ($addsupplier) {
 		echo "<script>
