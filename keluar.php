@@ -172,7 +172,7 @@ include 'config/function.php';
                         <input type="number" class="form-control" name="jmlh_kedit" value="<?= $jumlah ?>" required>
                       </div>
 
-                      <input type="text" name="transaksi_kedit" class="form-control" value="<?= $idtransaksi?>">
+                      <input type="hidden" name="transaksi_kedit" class="form-control" value="<?= $idtransaksi?>">
                     </div>
 
                     <div class="modal-footer" >
@@ -240,6 +240,25 @@ include 'config/function.php';
 
           <form class="p-3 bg-body rounded" method="post" action="">
                     <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="transaksi" class="form-label">Transaksi</label>
+                        <select name="transaksi" class="form-control" required>
+                        <option selected value="">::Pilih Transaksi::</option>
+                        <?php 
+                        $pilihantransaksi = mysqli_query($koneksi, "SELECT * FROM transaksi"); 
+                        while ($fetcharray = mysqli_fetch_array($pilihantransaksi)) {
+                          $deskripsi = $fetcharray['deskripsi'];
+                          $id_transaksi = $fetcharray['id_transaksi'];
+                          $tanggal = $fetcharray['tgl_transaksi'];
+                          ?>
+                          <option value="<?= $id_transaksi ?>">
+                            <?= date('d-m-Y', strtotime($tanggal)) ?> : <?= $deskripsi ?> 
+                          </option>
+                        <?php
+                        }
+                        ?>
+                        </select>
+                      </div>
 
                       <div class="mb-3">
                         <label for="barangkeluar" class="form-label">Barang</label>
@@ -265,25 +284,6 @@ include 'config/function.php';
                         <input type="number" class="form-control" name="jmlh_barangk" required>
                       </div>
 
-                      <div class="mb-3">
-                        <label for="transaksi" class="form-label">Transaksi</label>
-                        <select name="transaksi" class="form-control" required>
-                        <option selected value="">::Pilih Transaksi::</option>
-                        <?php 
-                        $pilihantransaksi = mysqli_query($koneksi, "SELECT * FROM transaksi"); 
-                        while ($fetcharray = mysqli_fetch_array($pilihantransaksi)) {
-                          $deskripsi = $fetcharray['deskripsi'];
-                          $id_transaksi = $fetcharray['id_transaksi'];
-                          $tanggal = $fetcharray['tgl_transaksi'];
-                          ?>
-                          <option value="<?= $id_transaksi ?>">
-                            <?= date('d-m-Y', strtotime($tanggal)) ?> : <?= $deskripsi ?> 
-                          </option>
-                        <?php
-                        }
-                        ?>
-                        </select>
-                      </div>
                     </div>
 
           <div class="modal-footer" >

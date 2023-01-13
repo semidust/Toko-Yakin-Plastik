@@ -190,17 +190,17 @@ include 'config/function.php';
                   <div class="modal-content">
 
                     <div class="modal-header">
-                      <h4 class="modal-title">Hapus Supplier</h4>
+                      <h4 class="modal-title">Hapus Transaksi</h4>
                       <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
                     <div class="modal-body">
-                      <p>Apakah yakin ingin menghapus supplier <?= $nama_pelanggan;?> - <?=$no_hp;?>?</p>
+                      <p>Apakah yakin ingin menghapus transaksi <?= $deskripsi;?> - <?= $pelanggan;?>?</p>
                     </div>
 
                     <form method="post">
                     <div class="modal-footer">
-                      <input type="hidden" name="id_shapus" id="id_shapus" value="<?= $id_supplier; ?>">
+                      <input type="hidden" name="id_thapus" id="id_thapus" value="<?= $id_transaksi; ?>">
                       <button type="submit" class="btn btn-primary" name="deletesupplier">Delete</button>
                       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>

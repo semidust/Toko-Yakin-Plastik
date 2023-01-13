@@ -316,7 +316,7 @@ if (isset($_POST['edittransaksi'])) {
 	$total = $_POST['total_tedit'];
     $pelanggan = $_POST['pelanggan_tedit'];
 
-    $updatestokkeluar = mysqli_query($koneksi, "UPDATE barang SET stok ='$tambahqty' WHERE id_barang = '$barang'");
+    $updatestokkeluar = mysqli_query($koneksi, "UPDATE keluar SET tgl_bkeluar ='$tanggal' WHERE id_transaksi = '$id_tedit'");
 	$querytedit = mysqli_query($koneksi, "UPDATE transaksi SET id_pelanggan = '$pelanggan', deskripsi = '$deskripsi', 
     total_transaksi = '$total', tgl_transaksi = '$tanggal' WHERE id_transaksi = '$id_tedit'");
 
