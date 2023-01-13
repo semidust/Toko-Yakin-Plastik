@@ -20,7 +20,7 @@ include 'config/function.php';
 </form>
 <br><br>
 
-  <div class="row"; style="width: 50%">
+  <div class="row" style="width: 50%; margin-left: 10pt">
       <div class="col">
         <form method="post" class="form-inline">
         <input type="date" name="tgl_mulai" class="form-control">
@@ -50,13 +50,13 @@ include 'config/function.php';
           WHERE (barang.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier)
           AND (nama_supplier LIKE '%".$pencarian."%' OR nama_barang LIKE '%".$pencarian."%')
           AND (tgl_bmasuk BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
-          ORDER BY id_masuk";
+          ORDER BY tgl_bmasuk";
         }
         else {
           $query = "SELECT * FROM masuk, supplier, barang 
           WHERE (barang.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier)
           AND (nama_supplier LIKE '%".$pencarian."%' OR nama_barang LIKE '%".$pencarian."%')
-          ORDER BY id_masuk";
+          ORDER BY tgl_bmasuk";
         }
       }
 
@@ -64,7 +64,7 @@ include 'config/function.php';
         $query = "SELECT * FROM masuk, supplier, barang 
         WHERE (barang.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier)
         AND (nama_supplier LIKE '%".$pencarian."%' OR nama_barang LIKE '%".$pencarian."%')
-        ORDER BY id_masuk";
+        ORDER BY tgl_bmasuk";
       }
     }
 
@@ -77,19 +77,19 @@ include 'config/function.php';
           $query = "SELECT * FROM masuk, supplier, barang 
           WHERE (barang.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier)
           AND (tgl_bmasuk BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
-          ORDER BY id_masuk";
+          ORDER BY tgl_bmasuk";
         }
         else {
           $query = "SELECT * FROM masuk, supplier, barang 
           WHERE (barang.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier)
-          ORDER BY id_masuk";
+          ORDER BY tgl_bmasuk";
         }
       }
 
       else {
         $query = "SELECT * FROM masuk, supplier, barang 
         WHERE (barang.id_barang = masuk.id_barang AND supplier.id_supplier = masuk.id_supplier)
-        ORDER BY id_masuk";
+        ORDER BY tgl_bmasuk";
       }
     }
       $masuk = mysqli_query($koneksi, $query);
@@ -120,7 +120,6 @@ include 'config/function.php';
         $jumlah = $data['jmlh_barang'];
         $total = $data['total'];
         $tanggal = $data['tgl_bmasuk'];
-        $totaljual += $total;
       ?>
             <tr>
                 <td><?php echo $no++;?>.</td>
@@ -176,11 +175,6 @@ include 'config/function.php';
                       <div class="mb-3">
                         <label for="jmlh_medit" class="form-label">Jumlah</label>
                         <input type="number" class="form-control" name="jmlh_medit" value="<?= $jumlah ?>" required>
-                      </div>
-
-                      <div class="mb-3">
-                        <label for="total_medit" class="form-label">Total</label>
-                        <input type="number" class="form-control" name="total_medit" value="<?= $total ?>" required>
                       </div>
 
                       <div class="mb-3">
@@ -261,7 +255,7 @@ include 'config/function.php';
         <div class="modal-content">
 
           <div class="modal-header">
-            <h4 class="modal-title">Tambah masuk</h4>
+            <h4 class="modal-title">Tambah Barang Masuk</h4>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
@@ -294,11 +288,6 @@ include 'config/function.php';
                       <div class="mb-3">
                         <label for="jmlh_barangm" class="form-label">Jumlah</label>
                         <input type="number" class="form-control" name="jmlh_barangm" required>
-                      </div>
-
-                      <div class="mb-3">
-                        <label for="total" class="form-label">Total</label>
-                        <input type="number" class="form-control" name="total_barangm" required>
                       </div>
 
                       <div class="mb-3">

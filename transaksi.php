@@ -21,7 +21,7 @@ include 'config/function.php';
 </form>
 <br><br>
 
-  <div class="row"; style="width: 50%">
+  <div class="row" style="width: 50%; margin-left: 10pt">
       <div class="col">
         <form method="post" class="form-inline">
         <input type="date" name="tgl_mulai" class="form-control">
@@ -50,19 +50,19 @@ include 'config/function.php';
           $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
           AND (nama_pelanggan LIKE '%".$pencarian."%' OR deskripsi LIKE '%".$pencarian."%')
           AND (tgl_transaksi BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
-          ORDER BY id_transaksi";
+          ORDER BY tgl_transaksi";
         }
         else {
           $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
           AND (nama_pelanggan LIKE '%".$pencarian."%' OR deskripsi LIKE '%".$pencarian."%')
-          ORDER BY id_transaksi";
+          ORDER BY tgl_transaksi";
         }
       }
 
       else {
         $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
         AND (nama_pelanggan LIKE '%".$pencarian."%' OR deskripsi LIKE '%".$pencarian."%')
-        ORDER BY id_transaksi";
+        ORDER BY tgl_transaksi";
       }
     }
 
@@ -74,17 +74,17 @@ include 'config/function.php';
         if($mulai!=null || $selesai!=null) {
           $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan
           AND (tgl_transaksi BETWEEN '$mulai' AND DATE_ADD('$selesai', INTERVAL 0 DAY))
-          ORDER BY id_transaksi";
+          ORDER BY tgl_transaksi";
         }
         else {
           $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan 
-          ORDER BY id_transaksi";
+          ORDER BY tgl_transaksi";
         }
       }
 
       else {
         $query = "SELECT * FROM transaksi, pelanggan WHERE transaksi.id_pelanggan = pelanggan.id_pelanggan 
-        ORDER BY id_transaksi";
+        ORDER BY tgl_transaksi";
       }
     }
       $transaksi = mysqli_query($koneksi, $query);
@@ -110,9 +110,8 @@ include 'config/function.php';
         $id_transaksi = $data['id_transaksi'];
         $pelanggan = $data['nama_pelanggan'];
         $deskripsi = $data['deskripsi'];
-        $total = $data['total'];
+        $total = $data['total_transaksi'];
         $tanggal = $data['tgl_transaksi'];
-        $totaljual += $total;
       ?>
             <tr>
                 <td><?php echo $no++;?>.</td>
