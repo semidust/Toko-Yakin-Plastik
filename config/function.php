@@ -468,7 +468,7 @@ if (isset($_POST['addbarang'])) {
     $harga = $_POST['harga'];
     $stok = $_POST['stok'];
 
-	$addbarang= mysqli_query($koneksi, "INSERT INTO barang (nama_barang, modal,harga,stok) VALUES ('$id_barang', '$nama_barang', '$modal','$harga','$stok')");
+	$addbarang= mysqli_query($koneksi, "INSERT INTO barang (nama_barang, modal,harga,stok) VALUES ('$nama_barang', '$modal','$harga','$stok')");
 
 	if ($addbarang) {
 		echo "<script>
