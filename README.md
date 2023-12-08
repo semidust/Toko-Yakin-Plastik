@@ -11,8 +11,14 @@ This project is the final assignment for the "Database" course to create a web-b
 ### CRUD Operations
 ![Alt text](./screenshot/tampil.png)
 <p align="center">
-  ![Alt text](./screenshot/tambah.png)
-  ![Alt text](./screenshot/edit.png)
-  ![Alt text](./screenshot/hapus.png)
+  <img src="./screenshot/tambah.png" alt="Tambah" />
+</p>
+
+<p align="center">
+  <img src="./screenshot/edit.png" alt="Edit" />
+</p>
+
+<p align="center">
+  <img src="./screenshot/hapus.png" alt="Hapus" />
 </p>
 
